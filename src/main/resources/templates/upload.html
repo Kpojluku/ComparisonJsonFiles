@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <table>
+        <h2>Загрузите два Json файла для сравнения</h2>
+        <form method="POST" enctype="multipart/form-data" action="/upload">
+        <tr>
+            <td>Первый Json файл:</td>
+            <td><input type="file" name="file"/></td>
+        </tr>
+        <tr>
+            <td>Второй Json файл:</td>
+            <td><input type="file" name="file"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Upload"/></td>
+        </tr>
+        </form>
+    </table>
+</form>
+</body>
+</html>
