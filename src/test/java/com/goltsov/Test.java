@@ -6,7 +6,7 @@ import com.goltsov.model.JsonFile;
 public class Test {
     public static void main(String[] args) {
         JsonComparator comparator = new JsonComparator();
-        JsonFile jsonFile = new JsonFile();
+        JsonFile jsonFile;
         jsonFile = comparator.getJsonFile(getJson());
         System.out.println(jsonFile);
     }
