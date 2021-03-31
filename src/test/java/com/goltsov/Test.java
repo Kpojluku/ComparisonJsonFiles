@@ -6,16 +6,18 @@ import com.goltsov.model.JsonFile;
 
 public class Test {
     public static void main(String[] args) {
-        JsonComparator comparator = new JsonComparator();
-        JsonFile jsonFile1;
-        JsonFile jsonFile2;
-        try {
-            jsonFile1 = comparator.getJsonFile(getJson1());
-            jsonFile2 = comparator.getJsonFile(getJson2());
-            comparator.compare(jsonFile1, jsonFile2);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+//        JsonComparator comparator = new JsonComparator();
+//        JsonFile jsonFile1;
+//        JsonFile jsonFile2;
+//        try {
+//            jsonFile1 = comparator.getJsonFile(getJson1());
+//            jsonFile2 = comparator.getJsonFile(getJson2());
+//            comparator.compare(jsonFile1, jsonFile2);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+        int[] r = null;
+        System.out.println(r.length);
     }
 
 

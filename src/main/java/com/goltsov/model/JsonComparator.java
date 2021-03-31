@@ -3,6 +3,7 @@ package com.goltsov.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goltsov.model.objects.TechInformation;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,23 +24,28 @@ public class JsonComparator {
 
         return jsonFile;
     }
-    public void setJsonFile(JsonFile jsonFile, JsonFile finalFile)  {
-       finalFile.setMetadata(jsonFile.getMetadata());
-       finalFile.setServices(jsonFile.getServices());
-       finalFile.setArtifacts(jsonFile.getArtifacts());
-       finalFile.setScript(jsonFile.getScript());
-       finalFile.setRpm(jsonFile.getRpm());
-       finalFile.setParameters(jsonFile.getParameters());
+
+    public void setJsonFile(JsonFile jsonFile, JsonFile finalFile) {
+        finalFile.setMetadata(jsonFile.getMetadata());
+        finalFile.setServices(jsonFile.getServices());
+        finalFile.setArtifacts(jsonFile.getArtifacts());
+        finalFile.setScript(jsonFile.getScript());
+        finalFile.setRpm(jsonFile.getRpm());
+        finalFile.setParameters(jsonFile.getParameters());
     }
 
-    public String compare(JsonFile jsonFile1, JsonFile jsonFile2) {
-        //Перед сравнением проверить на наличие все обязательные объекты
+    public String compare(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
 
-       // System.out.println(jsonFile1.getMetadata().getDescription().getVersion()==
-      //          jsonFile2.getMetadata().getDescription().getVersion());
-
+        if (jsonFile1.getServices() != null) {
+            techInformation.setServicesLength(jsonFile1.getServices().length);
+        }
+        if (jsonFile2.getServices() != null && jsonFile2.getServices().length > techInformation.getServicesLength()) {
+            techInformation.setServicesLength(jsonFile2.getServices().length);
+        }
 
 
         return "report";
     }
+
+
 }
