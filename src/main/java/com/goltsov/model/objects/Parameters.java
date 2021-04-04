@@ -1,19 +1,20 @@
 package com.goltsov.model.objects;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
+
 
 public class Parameters {
-    private Map<String, String> common;
+    private LinkedHashMap<String, String> common;
     private ServicesPa services;
 
     public Parameters() {
     }
 
-    public Map<String, String> getCommon() {
+    public LinkedHashMap<String, String> getCommon() {
         return common;
     }
 
-    public void setCommon(Map<String, String> common) {
+    public void setCommon(LinkedHashMap<String, String> common) {
         this.common = common;
     }
 

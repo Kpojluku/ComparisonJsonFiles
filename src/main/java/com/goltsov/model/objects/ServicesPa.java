@@ -1,18 +1,19 @@
 package com.goltsov.model.objects;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
+
 
 public class ServicesPa {
-    Map<String, String> service_name;
+    LinkedHashMap<String, String> service_name;
 
     public ServicesPa() {
     }
 
-    public Map<String, String> getService_name() {
+    public LinkedHashMap<String, String> getService_name() {
         return service_name;
     }
 
-    public void setService_name(Map<String, String> service_name) {
+    public void setService_name(LinkedHashMap<String, String> service_name) {
         this.service_name = service_name;
     }
 

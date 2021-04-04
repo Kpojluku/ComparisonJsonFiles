@@ -3,7 +3,7 @@ package com.goltsov.controller;
 
 import com.goltsov.model.JsonComparator;
 import com.goltsov.model.JsonFile;
-import com.goltsov.model.objects.TechInformation;
+import com.goltsov.model.TechInformation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
