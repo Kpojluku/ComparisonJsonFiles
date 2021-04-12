@@ -45,6 +45,25 @@ public class JsonComparator {
 
         setMaxServiceNameLength(jsonFile1, jsonFile2, techInformation);
 
+        techInformation.setMetadataVersionEqual(jsonFile1.getMetadata().getDescription().getVersion() ==
+                jsonFile2.getMetadata().getDescription().getVersion());
+
+        techInformation.setMetadataNameEqual(jsonFile1.getMetadata().getApplication().getName().
+                        equals(jsonFile2.getMetadata().getApplication().getName()));
+
+        if(jsonFile1.getServices().length == jsonFile2.getServices().length){
+            techInformation.setCheck(null);
+            techInformation.setServicesCount(100000);
+        }else if(jsonFile1.getServices().length > jsonFile2.getServices().length ){
+           int count = jsonFile1.getServices().length - (jsonFile1.getServices().length - jsonFile2.getServices().length) -1;
+            techInformation.setCheck("background: indianred;");
+            techInformation.setServicesCount(count);
+        }else{
+            int count = jsonFile2.getServices().length - (jsonFile2.getServices().length - jsonFile1.getServices().length) -1;
+            techInformation.setCheck("background: greenyellow;");
+            techInformation.setServicesCount(count);
+        }
+
         return "report";
     }
 

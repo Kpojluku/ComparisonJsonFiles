@@ -20,13 +20,21 @@
         <th>First Json File</th>
         <th>Second Json File</th>
     </tr>
-    <tr>
-        <td align="center"><p th:text="'name: ' + ${jsonfile1.metadata.application.name}"/></td>
-        <td align="center"><p th:text="'name: ' + ${jsonfile2.metadata.application.name}"/></td>
+    <tr th:style="${Tech.MetadataNameEqual}? '' : 'color: lightskyblue;'">
+        <td align="center" >
+            <p th:text="'name: ' + ${jsonfile1.metadata.application.name}"/>
+        </td>
+        <td align="center">
+            <p th:text="'name: ' + ${jsonfile2.metadata.application.name}"/>
+        </td>
     </tr>
-    <tr>
-        <td align="center"><p th:text="'version: ' + ${jsonfile1.metadata.description.version}"/></td>
-        <td align="center"><p th:text="'version: ' + ${jsonfile2.metadata.description.version}"/></td>
+    <tr th:style="${Tech.MetadataVersionEqual}? '' : 'color: lightskyblue;'">
+        <td align="center">
+            <p th:text="'version: ' + ${jsonfile1.metadata.description.version}"/>
+        </td>
+        <td align="center">
+            <p th:text="'version: ' + ${jsonfile2.metadata.description.version}"/>
+        </td>
     </tr>
 </table>
 
@@ -38,40 +46,40 @@
         <th>Second Json File</th>
     </tr>
 
-    <tr th:each="i:${#numbers.sequence(0, Tech.servicesLength-1)}">
+    <tr th:each="i:${#numbers.sequence(0, Tech.servicesLength-1)}" th:style="${i>Tech.servicesCount}? ${Tech.check}">
 
         <td align="center"><p th:utext="${i+1}">..</p></td>
 
         <td align="center">
             <th:block th:if="${jsonfile1.services.length > i}">
-                <p th:utext="' service-short-name: '  + ${jsonfile1.services[i].service_short_name}">..</p>
-                <p th:utext="' service_name: ' + ${jsonfile1.services[i].service_name}">..</p>
-                <p th:utext="' artifact_type: ' + ${jsonfile1.services[i].artifact_type}">..</p>
-                <p th:utext="' docker_registry: ' + ${jsonfile1.services[i].docker_registry}">..</p>
-                <p th:utext="' docker_image_name: ' + ${jsonfile1.services[i].docker_image_name}">..</p>
-                <p th:utext="' docker_tag: ' + ${jsonfile1.services[i].docker_tag}">..</p>
-                <p th:utext="' force: ' + ${jsonfile1.services[i].force}">..</p>
-                <p th:utext="' github_repository: ' + ${jsonfile1.services[i].github_repository}">..</p>
-                <p th:utext="' github_branch: ' + ${jsonfile1.services[i].github_branch}">..</p>
-                <p th:utext="' github_hash: ' + ${jsonfile1.services[i].github_hash}">..</p>
-                <p th:utext="' sha1: ' + ${jsonfile1.services[i].hashes.sha1}">..</p>
-                <p th:utext="' sha256: ' + ${jsonfile1.services[i].hashes.sha256}">..</p>
+                <p th:utext="' service-short-name: '  + ${jsonfile1.services[i].service_short_name}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].service_short_name != jsonfile2.services[i].service_short_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' service_name: ' + ${jsonfile1.services[i].service_name}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].service_name != jsonfile2.services[i].service_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' artifact_type: ' + ${jsonfile1.services[i].artifact_type}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].artifact_type != jsonfile2.services[i].artifact_type }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_registry: ' + ${jsonfile1.services[i].docker_registry}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].docker_registry != jsonfile2.services[i].docker_registry }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_image_name: ' + ${jsonfile1.services[i].docker_image_name}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].docker_image_name != jsonfile2.services[i].docker_image_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_tag: ' + ${jsonfile1.services[i].docker_tag}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].docker_tag != jsonfile2.services[i].docker_tag }?'background: lightskyblue;'">..</p>
+                <p th:utext="' force: ' + ${jsonfile1.services[i].force}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].force != jsonfile2.services[i].force }?'background: lightskyblue;'">..</p>
+                <p th:utext="' github_repository: ' + ${jsonfile1.services[i].github_repository}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].github_repository != jsonfile2.services[i].github_repository }?'background: lightskyblue;'">..</p>
+                <p th:utext="' github_branch: ' + ${jsonfile1.services[i].github_branch}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].github_branch != jsonfile2.services[i].github_branch }?'background: lightskyblue;'">..</p>
+                <p th:utext="' github_hash: ' + ${jsonfile1.services[i].github_hash}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].github_hash != jsonfile2.services[i].github_hash }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha1: ' + ${jsonfile1.services[i].hashes.sha1}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].hashes.sha1 != jsonfile2.services[i].hashes.sha1 }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha256: ' + ${jsonfile1.services[i].hashes.sha256}" th:style="${jsonfile2.services.length > i and jsonfile1.services[i].hashes.sha256 != jsonfile2.services[i].hashes.sha256 }?'background: lightskyblue;'">..</p>
             </th:block>
         </td>
         <td align="center">
             <th:block th:if="${jsonfile2.services.length > i}">
-                <p th:utext="' service-short-name: ' + ${jsonfile2.services[i].service_short_name}">..</p>
-                <p th:utext="' service_name: ' + ${jsonfile2.services[i].service_name}">..</p>
-                <p th:utext="' artifact_type: ' + ${jsonfile2.services[i].artifact_type}">..</p>
-                <p th:utext="' docker_registry: ' + ${jsonfile2.services[i].docker_registry}">..</p>
-                <p th:utext="' docker_image_name: ' + ${jsonfile2.services[i].docker_image_name}">..</p>
-                <p th:utext="' docker_tag: ' + ${jsonfile2.services[i].docker_tag}">..</p>
-                <p th:utext="' force: ' + ${jsonfile2.services[i].force}">..</p>
-                <p th:utext="' github_repository: ' + ${jsonfile2.services[i].github_repository}">..</p>
-                <p th:utext="' github_branch: ' + ${jsonfile2.services[i].github_branch}">..</p>
-                <p th:utext="' github_hash: ' + ${jsonfile2.services[i].github_hash}">..</p>
-                <p th:utext="' sha1: ' + ${jsonfile2.services[i].hashes.sha1}">..</p>
-                <p th:utext="' sha256: ' + ${jsonfile2.services[i].hashes.sha256}">..</p>
+                <p th:utext="' service-short-name: ' + ${jsonfile2.services[i].service_short_name}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].service_short_name != jsonfile1.services[i].service_short_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' service_name: ' + ${jsonfile2.services[i].service_name}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].service_name != jsonfile1.services[i].service_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' artifact_type: ' + ${jsonfile2.services[i].artifact_type}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].artifact_type != jsonfile1.services[i].artifact_type }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_registry: ' + ${jsonfile2.services[i].docker_registry}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].docker_registry != jsonfile1.services[i].docker_registry }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_image_name: ' + ${jsonfile2.services[i].docker_image_name}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].docker_image_name != jsonfile1.services[i].docker_image_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_tag: ' + ${jsonfile2.services[i].docker_tag}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].docker_tag != jsonfile1.services[i].docker_tag }?'background: lightskyblue;'">..</p>
+                <p th:utext="' force: ' + ${jsonfile2.services[i].force}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].force != jsonfile1.services[i].force }?'background: lightskyblue;'">..</p>
+                <p th:utext="' github_repository: ' + ${jsonfile2.services[i].github_repository}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].github_repository != jsonfile1.services[i].github_repository }?'background: lightskyblue;'">..</p>
+                <p th:utext="' github_branch: ' + ${jsonfile2.services[i].github_branch}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].github_branch != jsonfile1.services[i].github_branch }?'background: lightskyblue;'">..</p>
+                <p th:utext="' github_hash: ' + ${jsonfile2.services[i].github_hash}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].github_hash != jsonfile1.services[i].github_hash }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha1: ' + ${jsonfile2.services[i].hashes.sha1}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].hashes.sha1 != jsonfile1.services[i].hashes.sha1 }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha256: ' + ${jsonfile2.services[i].hashes.sha256}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].hashes.sha256 != jsonfile1.services[i].hashes.sha256 }?'background: lightskyblue;'">..</p>
             </th:block>
         </td>
     </tr>
@@ -89,10 +97,11 @@
 
         <td align="center"><p th:utext="${i+1}">..</p></td>
 
-        <td align="center">
+        <td valign="top" align="center">
             <th:block th:if="${jsonfile1.artifacts.length > i }">
                 <th:block th:if="${i==0}">
                     <th:block th:each="count:${#numbers.sequence(0, jsonfile1.artifacts[0].mvn.length-1)}">
+                        <div th:style="${jsonfile1.artifacts[i].mvn[count].groupId != jsonfile2.artifacts[i].mvn[count].groupId}?'background: lightskyblue;'">
                         <p th:utext="' groupId: '  + ${jsonfile1.artifacts[i].mvn[count].groupId}">..</p>
                         <p th:utext="' artifactId: '  + ${jsonfile1.artifacts[i].mvn[count].artifactId}">..</p>
                         <p th:utext="' version: '  + ${jsonfile1.artifacts[i].mvn[count].version}">..</p>
@@ -103,7 +112,8 @@
                         <p th:utext="' sha1: '  + ${jsonfile1.artifacts[i].mvn[count].hashes.sha1}">..</p>
                         <p th:utext="' sha256: '  + ${jsonfile1.artifacts[i].mvn[count].hashes.sha256}">..</p>
                         <p>...</p>
-                    </th:block>
+                        </div>
+                    </th:block >
                     <p th:utext="' target_repository: '  + ${jsonfile1.artifacts[i].target_repository}">..</p>
                 </th:block>
                 <th:block th:if="${i > 0}">
@@ -116,7 +126,7 @@
                 </th:block>
             </th:block>
         </td>
-        <td align="center">
+        <td valign="top" align="center">
             <th:block th:if="${jsonfile2.artifacts.length > i }">
                 <th:block th:if="${i==0}">
                     <th:block th:each="count:${#numbers.sequence(0, jsonfile2.artifacts[0].mvn.length-1)}">

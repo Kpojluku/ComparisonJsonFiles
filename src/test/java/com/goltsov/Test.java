@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.goltsov.model.JsonComparator;
 import com.goltsov.model.JsonFile;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Test {
     public static void main(String[] args) {
 //        JsonComparator comparator = new JsonComparator();
@@ -17,7 +21,15 @@ public class Test {
 //            e.printStackTrace();
 //        }
         int[] r = null;
-        System.out.println(r.length);
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("test1", "te1");
+        map.put("test2", "te2");
+        map.put("test3", "te3");
+        String[] ch = map.keySet().toArray(new String[0]);
+        for(String s: ch){
+            System.out.println(s);
+        }
+
     }
 
 

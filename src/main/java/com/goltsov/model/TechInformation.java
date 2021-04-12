@@ -14,6 +14,42 @@ public class TechInformation {
     private String [] serviceValues1;
     private String [] serviceKeys2;
     private String [] serviceValues2;
+    private boolean MetadataVersionEqual ;
+    private boolean MetadataNameEqual;
+    private String check;
+    private int servicesCount;
+
+    public int getServicesCount() {
+        return servicesCount;
+    }
+
+    public void setServicesCount(int servicesCount) {
+        this.servicesCount = servicesCount;
+    }
+
+    public String getCheck() {
+        return check;
+    }
+
+    public void setCheck(String check) {
+        this.check = check;
+    }
+
+    public boolean isMetadataNameEqual() {
+        return MetadataNameEqual;
+    }
+
+    public void setMetadataNameEqual(boolean metadataNameEqual) {
+        MetadataNameEqual = metadataNameEqual;
+    }
+
+    public boolean isMetadataVersionEqual() {
+        return MetadataVersionEqual;
+    }
+
+    public void setMetadataVersionEqual(boolean metadataVersionEqual) {
+        MetadataVersionEqual = metadataVersionEqual;
+    }
 
     public int getServiceNameLength() {
         return serviceNameLength;
