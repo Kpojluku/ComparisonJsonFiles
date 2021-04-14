@@ -104,7 +104,7 @@
                         <div th:style="${jsonfile1.artifacts[i].mvn[count].groupId != jsonfile2.artifacts[i].mvn[count].groupId or
 					jsonfile1.artifacts[i].mvn[count].artifactId != jsonfile2.artifacts[i].mvn[count].artifactId or
 					jsonfile1.artifacts[i].mvn[count].version != jsonfile2.artifacts[i].mvn[count].version or
-					jsonfile1.artifacts[i].mvn[count].mvn_type != jsonfile2.artifacts[i].mvn[count].mvn_type}?'background: lightskyblue;'"">
+					jsonfile1.artifacts[i].mvn[count].mvn_type != jsonfile2.artifacts[i].mvn[count].mvn_type}?'background: lightskyblue;'">
                         <p th:utext="' groupId: '  + ${jsonfile1.artifacts[i].mvn[count].groupId}">..</p>
                         <p th:utext="' artifactId: '  + ${jsonfile1.artifacts[i].mvn[count].artifactId}">..</p>
                         <p th:utext="' version: '  + ${jsonfile1.artifacts[i].mvn[count].version}">..</p>
