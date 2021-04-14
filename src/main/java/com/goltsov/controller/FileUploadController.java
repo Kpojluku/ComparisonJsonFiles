@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FileUploadController {
 
-    @GetMapping("/upload")
+    @GetMapping("/")
     public String listUploadedFiles(Model model) {
         model.addAttribute("upload");
         return "upload";
