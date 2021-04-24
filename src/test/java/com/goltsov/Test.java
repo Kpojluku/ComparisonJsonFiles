@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.goltsov.model.JsonComparator;
 import com.goltsov.model.JsonFile;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,15 +21,30 @@ public class Test {
 //        } catch (JsonProcessingException e) {
 //            e.printStackTrace();
 //        }
-        int[] r = null;
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("test1", "te1");
-        map.put("test2", "te2");
-        map.put("test3", "te3");
-        String[] ch = map.keySet().toArray(new String[0]);
-        for(String s: ch){
-            System.out.println(s);
-        }
+//        int[] r = null;
+//        Map<String, String> map = new LinkedHashMap<>();
+//        map.put("test1", "te1");
+//        map.put("test2", "te2");
+//        map.put("test3", "te3");
+//        String[] ch = map.keySet().toArray(new String[0]);
+//        for(String s: ch){
+//            System.out.println(s);
+//        }
+//
+//
+//        Map<String, Map<String, String>> map = new LinkedHashMap<>();
+
+        String[] test = new String[]{"test", "test1"};
+        String[] tmp = test;
+        String[] tmp2 = Arrays.copyOf(test, test.length);
+        tmp[0] = "123";
+        tmp2[0]= "321";
+        System.out.println(Arrays.toString(test));
+        System.out.println("------------");
+        System.out.println(Arrays.toString(tmp));
+        System.out.println("------------");
+        System.out.println(Arrays.toString(tmp2));
+
 
     }
 

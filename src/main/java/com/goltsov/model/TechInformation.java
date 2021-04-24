@@ -17,7 +17,52 @@ public class TechInformation {
     private boolean MetadataVersionEqual ;
     private boolean MetadataNameEqual;
     private String check;
+    private String check2;
     private int servicesCount;
+    private int scriptCount;
+    private int mvnLength;
+    private int minMvnLength;
+    private boolean[] isMvnEqual;
+
+    public int getScriptCount() {
+        return scriptCount;
+    }
+
+    public void setScriptCount(int scriptCount) {
+        this.scriptCount = scriptCount;
+    }
+
+    public String getCheck2() {
+        return check2;
+    }
+
+    public void setCheck2(String check2) {
+        this.check2 = check2;
+    }
+
+    public boolean[] getIsMvnEqual() {
+        return isMvnEqual;
+    }
+
+    public void setIsMvnEqual(boolean[] isMvnEqual) {
+        this.isMvnEqual = isMvnEqual;
+    }
+
+    public int getMinMvnLength() {
+        return minMvnLength;
+    }
+
+    public void setMinMvnLength(int minMvnLength) {
+        this.minMvnLength = minMvnLength;
+    }
+
+    public int getMvnLength() {
+        return mvnLength;
+    }
+
+    public void setMvnLength(int mvnLength) {
+        this.mvnLength = mvnLength;
+    }
 
     public int getServicesCount() {
         return servicesCount;
