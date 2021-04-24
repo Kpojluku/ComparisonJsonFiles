@@ -16,9 +16,9 @@ public class TechInformation {
     private String [] serviceValues2;
     private boolean MetadataVersionEqual ;
     private boolean MetadataNameEqual;
-    private String check;
+
     private String check2;
-    private int servicesCount;
+
     private int scriptCount;
     private int mvnLength;
     private int minMvnLength;
@@ -64,21 +64,6 @@ public class TechInformation {
         this.mvnLength = mvnLength;
     }
 
-    public int getServicesCount() {
-        return servicesCount;
-    }
-
-    public void setServicesCount(int servicesCount) {
-        this.servicesCount = servicesCount;
-    }
-
-    public String getCheck() {
-        return check;
-    }
-
-    public void setCheck(String check) {
-        this.check = check;
-    }
 
     public boolean isMetadataNameEqual() {
         return MetadataNameEqual;

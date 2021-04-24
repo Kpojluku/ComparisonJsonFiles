@@ -3,12 +3,12 @@ package com.goltsov.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goltsov.model.objects.Mvn;
 import com.goltsov.model.objects.Services;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class JsonComparator {
 
@@ -55,29 +55,22 @@ public class JsonComparator {
 
 
         //сортировка массива для Services
-        if(jsonFile2.getServices().length>=jsonFile1.getServices().length) {
+        if (jsonFile2.getServices().length >= jsonFile1.getServices().length) {
             sortServices(jsonFile1, jsonFile2);
-        }else {
+        } else {
             sortServices(jsonFile2, jsonFile1);
         }
 
         //сортировка массива универсально
-       // sortServices2(jsonFile1, jsonFile2);
+        // sortServices2(jsonFile1, jsonFile2);
 
-
-        // Цветовое выделение блока для Services
-        if (jsonFile1.getServices().length == jsonFile2.getServices().length) {
-            techInformation.setCheck(null);
-            techInformation.setServicesCount(100000);
-        } else if (jsonFile1.getServices().length > jsonFile2.getServices().length) {
-            int count = jsonFile1.getServices().length - (jsonFile1.getServices().length - jsonFile2.getServices().length) - 1;
-            techInformation.setCheck("background: indianred;");
-            techInformation.setServicesCount(count);
+        //сортировка массива для mvn
+        if (jsonFile2.getArtifacts()[0].getMvn().length >= jsonFile1.getArtifacts()[0].getMvn().length) {
+            sortMvn(jsonFile1, jsonFile2);
         } else {
-            int count = jsonFile2.getServices().length - (jsonFile2.getServices().length - jsonFile1.getServices().length) - 1;
-            techInformation.setCheck("background: greenyellow;");
-            techInformation.setServicesCount(count);
+            sortMvn(jsonFile2, jsonFile1);
         }
+
         // выделение блока для скрита
         if (jsonFile1.getScript().length == jsonFile2.getScript().length) {
             techInformation.setCheck2(null);
@@ -111,9 +104,9 @@ public class JsonComparator {
             if (!jsonFile1.getArtifacts()[0].getMvn()[i].getGroupId().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getGroupId()) ||
                     !jsonFile1.getArtifacts()[0].getMvn()[i].getArtifactId().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getArtifactId()) ||
                     !jsonFile1.getArtifacts()[0].getMvn()[i].getVersion().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getVersion()) ||
-                    !jsonFile1.getArtifacts()[0].getMvn()[i].getMvn_type().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getMvn_type())){
+                    !jsonFile1.getArtifacts()[0].getMvn()[i].getMvn_type().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getMvn_type())) {
                 checkMvn[i] = false;
-            }else {
+            } else {
                 checkMvn[i] = true;
             }
         }
@@ -123,26 +116,27 @@ public class JsonComparator {
         return "report";
     }
 
+
     private void sortServices2(JsonFile jsonFile1, JsonFile jsonFile2) {
         String[] keys1 = new String[jsonFile1.getServices().length];
-        for (int i = 0; i < keys1.length; i++){
-            keys1[i]= jsonFile1.getServices()[i].getDocker_image_name() + jsonFile1.getServices()[i].getDocker_tag();
+        for (int i = 0; i < keys1.length; i++) {
+            keys1[i] = jsonFile1.getServices()[i].getDocker_image_name() + jsonFile1.getServices()[i].getDocker_tag();
         }
         String[] keys2 = new String[jsonFile2.getServices().length];
-        for (int i = 0; i < keys2.length; i++){
-            keys2[i]= jsonFile2.getServices()[i].getDocker_image_name() + jsonFile2.getServices()[i].getDocker_tag();
+        for (int i = 0; i < keys2.length; i++) {
+            keys2[i] = jsonFile2.getServices()[i].getDocker_image_name() + jsonFile2.getServices()[i].getDocker_tag();
         }
-        if(jsonFile2.getServices().length>= jsonFile1.getServices().length) {
+        if (jsonFile2.getServices().length >= jsonFile1.getServices().length) {
             sortArr(jsonFile1.getServices(), jsonFile2.getServices(), keys1, keys2);
-        }else {
+        } else {
             sortArr(jsonFile2.getServices(), jsonFile1.getServices(), keys2, keys1);
         }
     }
 
     private void sortArr(Object[] arr1, Object[] arr2, String[] keys1, String[] keys2) {
-        for (int i = 0; i< arr1.length; i++){
-            for(int j = 0; j< arr2.length; j++){
-                if(keys1[i].equals(keys2[j])){
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < arr2.length; j++) {
+                if (keys1[i].equals(keys2[j])) {
                     Object tmp2 = arr2[i];
                     arr2[i] = arr2[j];
                     arr2[j] = tmp2;
@@ -153,13 +147,27 @@ public class JsonComparator {
 
     private void sortServices(JsonFile jsonFile1, JsonFile jsonFile2) {
         //сортировка массива для Services
-        for (int i = 0; i< jsonFile1.getServices().length; i++){
-            for(int j = 0; j< jsonFile2.getServices().length; j++){
-                if(jsonFile1.getServices()[i].getDocker_image_name().equals(jsonFile2.getServices()[j].getDocker_image_name())
-                        && jsonFile1.getServices()[i].getDocker_tag().equals(jsonFile2.getServices()[j].getDocker_tag())){
+        for (int i = 0; i < jsonFile1.getServices().length; i++) {
+            for (int j = 0; j < jsonFile2.getServices().length; j++) {
+                if (jsonFile1.getServices()[i].getDocker_image_name().equals(jsonFile2.getServices()[j].getDocker_image_name())
+                        && jsonFile1.getServices()[i].getDocker_tag().equals(jsonFile2.getServices()[j].getDocker_tag())) {
                     Services tmp2 = jsonFile2.getServices()[i];
                     jsonFile2.getServices()[i] = jsonFile2.getServices()[j];
                     jsonFile2.getServices()[j] = tmp2;
+                }
+            }
+        }
+    }
+    private void sortMvn(JsonFile jsonFile1, JsonFile jsonFile2) {
+        for (int i = 0; i < jsonFile1.getArtifacts()[0].getMvn().length; i++) {
+            for (int j = 0; j < jsonFile2.getArtifacts()[0].getMvn().length; j++) {
+                if (jsonFile1.getArtifacts()[0].getMvn()[i].getGroupId().equals(jsonFile2.getArtifacts()[0].getMvn()[j].getGroupId()) &&
+                        jsonFile1.getArtifacts()[0].getMvn()[i].getArtifactId().equals(jsonFile2.getArtifacts()[0].getMvn()[j].getArtifactId()) &&
+                        jsonFile1.getArtifacts()[0].getMvn()[i].getVersion().equals(jsonFile2.getArtifacts()[0].getMvn()[j].getVersion()) &&
+                        jsonFile1.getArtifacts()[0].getMvn()[i].getMvn_type().equals(jsonFile2.getArtifacts()[0].getMvn()[j].getMvn_type())) {
+                    Mvn tmp2 = jsonFile2.getArtifacts()[0].getMvn()[i];
+                    jsonFile2.getArtifacts()[0].getMvn()[i] = jsonFile2.getArtifacts()[0].getMvn()[j];
+                    jsonFile2.getArtifacts()[0].getMvn()[j] = tmp2;
                 }
             }
         }

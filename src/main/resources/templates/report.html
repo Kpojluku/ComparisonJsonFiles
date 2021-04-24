@@ -60,38 +60,40 @@
         <td align="center"><p th:utext="${i+1}">..</p></td>
 
         <td align="center">
-            <th:block th:if="${jsonfile1.services.length > i}">
+            <th:block th:if="${isFirstElementExist}">
                 <div  th:style="${isNotEqual}? 'background: indianred;'">
 
-                <p th:utext="' service-short-name: '  + ${services1.service_short_name}" th:style="${ !isNotEqual and isSecondElementExist and services1.service_short_name != services2.service_short_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services1.service_short_name != null}?' service-short-name: '  + ${services1.service_short_name} : '..'" th:style="${ !isNotEqual and isSecondElementExist and services1.service_short_name != services2.service_short_name }?'background: lightskyblue;'">..</p>
                 <p th:utext="' service_name: ' + ${services1.service_name}" th:style="${!isNotEqual and isSecondElementExist and services1.service_name != services2.service_name }?'background: lightskyblue;'">..</p>
                 <p th:utext="' artifact_type: ' + ${services1.artifact_type}" th:style="${!isNotEqual and isSecondElementExist and services1.artifact_type != services2.artifact_type }?'background: lightskyblue;'">..</p>
                 <p th:utext="' docker_registry: ' + ${services1.docker_registry}" th:style="${!isNotEqual and isSecondElementExist and services1.docker_registry != services2.docker_registry }?'background: lightskyblue;'">..</p>
                 <p th:utext="' docker_image_name: ' + ${services1.docker_image_name}" th:style="${!isNotEqual and isSecondElementExist and services1.docker_image_name != services2.docker_image_name }?'background: lightskyblue;'">..</p>
                 <p th:utext="' docker_tag: ' + ${services1.docker_tag}" th:style="${!isNotEqual and isSecondElementExist and services1.docker_tag != services2.docker_tag }?'background: lightskyblue;'">..</p>
-                <p th:utext="' force: ' + ${services1.force}" th:style="${!isNotEqual and isSecondElementExist and services1.force != services2.force }?'background: lightskyblue;'">..</p>
-                <p th:utext="' github_repository: ' + ${services1.github_repository}" th:style="${!isNotEqual and isSecondElementExist and services1.github_repository != services2.github_repository }?'background: lightskyblue;'">..</p>
-                <p th:utext="' github_branch: ' + ${services1.github_branch}" th:style="${!isNotEqual and isSecondElementExist and services1.github_branch != services2.github_branch }?'background: lightskyblue;'">..</p>
-                <p th:utext="' github_hash: ' + ${services1.github_hash}" th:style="${!isNotEqual and isSecondElementExist and services1.github_hash != services2.github_hash }?'background: lightskyblue;'">..</p>
-                <p th:utext="' sha1: ' + ${services1.hashes.sha1}" th:style="${!isNotEqual and isSecondElementExist and services1.hashes.sha1 != services2.hashes.sha1 }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services1.force != null}?' force: ' + ${services1.force}" th:style="${!isNotEqual and isSecondElementExist and services1.force != services2.force }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services1.github_repository != null}?' github_repository: ' + ${services1.github_repository} : '..'" th:style="${!isNotEqual and isSecondElementExist and services1.github_repository != services2.github_repository }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services1.github_branch != null}?' github_branch: ' + ${services1.github_branch} : '..'" th:style="${!isNotEqual and isSecondElementExist and services1.github_branch != services2.github_branch }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services1.github_hash != null}?' github_hash: ' + ${services1.github_hash} : '..'" th:style="${!isNotEqual and isSecondElementExist and services1.github_hash != services2.github_hash }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha1: ' + ${services1.hashes.sha1} " th:style="${!isNotEqual and isSecondElementExist and services1.hashes.sha1 != services2.hashes.sha1 }?'background: lightskyblue;'">..</p>
                 <p th:utext="' sha256: ' + ${services1.hashes.sha256}" th:style="${!isNotEqual and isSecondElementExist and services1.hashes.sha256 != services2.hashes.sha256 }?'background: lightskyblue;'">..</p>
                  </div>
             </th:block>
         </td>
         <td align="center">
-            <th:block th:if="${jsonfile2.services.length > i}">
-                <p th:utext="' service-short-name: ' + ${jsonfile2.services[i].service_short_name}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].service_short_name != jsonfile1.services[i].service_short_name }?'background: lightskyblue;'">..</p>
-                <p th:utext="' service_name: ' + ${jsonfile2.services[i].service_name}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].service_name != jsonfile1.services[i].service_name }?'background: lightskyblue;'">..</p>
-                <p th:utext="' artifact_type: ' + ${jsonfile2.services[i].artifact_type}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].artifact_type != jsonfile1.services[i].artifact_type }?'background: lightskyblue;'">..</p>
-                <p th:utext="' docker_registry: ' + ${jsonfile2.services[i].docker_registry}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].docker_registry != jsonfile1.services[i].docker_registry }?'background: lightskyblue;'">..</p>
-                <p th:utext="' docker_image_name: ' + ${jsonfile2.services[i].docker_image_name}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].docker_image_name != jsonfile1.services[i].docker_image_name }?'background: lightskyblue;'">..</p>
-                <p th:utext="' docker_tag: ' + ${jsonfile2.services[i].docker_tag}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].docker_tag != jsonfile1.services[i].docker_tag }?'background: lightskyblue;'">..</p>
-                <p th:utext="' force: ' + ${jsonfile2.services[i].force}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].force != jsonfile1.services[i].force }?'background: lightskyblue;'">..</p>
-                <p th:utext="' github_repository: ' + ${jsonfile2.services[i].github_repository}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].github_repository != jsonfile1.services[i].github_repository }?'background: lightskyblue;'">..</p>
-                <p th:utext="' github_branch: ' + ${jsonfile2.services[i].github_branch}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].github_branch != jsonfile1.services[i].github_branch }?'background: lightskyblue;'">..</p>
-                <p th:utext="' github_hash: ' + ${jsonfile2.services[i].github_hash}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].github_hash != jsonfile1.services[i].github_hash }?'background: lightskyblue;'">..</p>
-                <p th:utext="' sha1: ' + ${jsonfile2.services[i].hashes.sha1}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].hashes.sha1 != jsonfile1.services[i].hashes.sha1 }?'background: lightskyblue;'">..</p>
-                <p th:utext="' sha256: ' + ${jsonfile2.services[i].hashes.sha256}" th:style="${jsonfile1.services.length > i and jsonfile2.services[i].hashes.sha256 != jsonfile1.services[i].hashes.sha256 }?'background: lightskyblue;'">..</p>
+            <th:block th:if="${isSecondElementExist}">
+                <div  th:style="${isNotEqual}? 'background: greenyellow;'">
+                <p th:utext="${services2.service_short_name != null}?' service-short-name: ' + ${services2.service_short_name}: '..'" th:style="${!isNotEqual and isFirstElementExist and services2.service_short_name != services1.service_short_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' service_name: ' + ${services2.service_name}" th:style="${!isNotEqual and isFirstElementExist and services2.service_name != services1.service_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' artifact_type: ' + ${services2.artifact_type}" th:style="${!isNotEqual and isFirstElementExist and services2.artifact_type != services1.artifact_type }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_registry: ' + ${services2.docker_registry}" th:style="${!isNotEqual and isFirstElementExist and services2.docker_registry != services1.docker_registry }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_image_name: ' + ${services2.docker_image_name}" th:style="${!isNotEqual and isFirstElementExist and services2.docker_image_name != services1.docker_image_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' docker_tag: ' + ${services2.docker_tag}" th:style="${!isNotEqual and isFirstElementExist and services2.docker_tag != services1.docker_tag }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services2.force != null}?' force: ' + ${services2.force}: '..'" th:style="${!isNotEqual and isFirstElementExist and services2.force != services1.force }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services2.github_repository != null}?' github_repository: ' + ${services2.github_repository}: '..'" th:style="${!isNotEqual and isFirstElementExist and services2.github_repository != services1.github_repository }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services2.github_branch != null}?' github_branch: ' + ${services2.github_branch}: '..'" th:style="${!isNotEqual and isFirstElementExist and services2.github_branch != services1.github_branch }?'background: lightskyblue;'">..</p>
+                <p th:utext="${services2.github_hash != null}?' github_hash: ' + ${services2.github_hash}: '..'" th:style="${!isNotEqual and isFirstElementExist and services2.github_hash != services1.github_hash }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha1: ' + ${services2.hashes.sha1}" th:style="${!isNotEqual and isFirstElementExist and services2.hashes.sha1 != services1.hashes.sha1 }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha256: ' + ${services2.hashes.sha256}" th:style="${!isNotEqual and isFirstElementExist and services2.hashes.sha256 != services1.hashes.sha256 }?'background: lightskyblue;'">..</p>
+                </div>
             </th:block>
         </td>
     </tr>
