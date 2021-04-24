@@ -2,42 +2,32 @@ package com.goltsov.model;
 
 public class TechInformation {
     private int servicesLength;
-    private int artifactsLength;;
-    private int ScriptLength;
+    private int artifactsLength;
+    private int scriptLength;
     private int commonLength;
-    private String [] commonKeys1;
-    private String [] commonValues1;
-    private String [] commonKeys2;
-    private String [] commonValues2;
+    private int rpmLength;
+    private String[] commonKeys1;
+    private String[] commonValues1;
+    private String[] commonKeys2;
+    private String[] commonValues2;
     private int serviceNameLength;
-    private String [] serviceKeys1;
-    private String [] serviceValues1;
-    private String [] serviceKeys2;
-    private String [] serviceValues2;
-    private boolean MetadataVersionEqual ;
+    private String[] serviceKeys1;
+    private String[] serviceValues1;
+    private String[] serviceKeys2;
+    private String[] serviceValues2;
+    private boolean MetadataVersionEqual;
     private boolean MetadataNameEqual;
-
-    private String check2;
-
-    private int scriptCount;
     private int mvnLength;
     private int minMvnLength;
     private boolean[] isMvnEqual;
 
-    public int getScriptCount() {
-        return scriptCount;
+
+    public int getRpmLength() {
+        return rpmLength;
     }
 
-    public void setScriptCount(int scriptCount) {
-        this.scriptCount = scriptCount;
-    }
-
-    public String getCheck2() {
-        return check2;
-    }
-
-    public void setCheck2(String check2) {
-        this.check2 = check2;
+    public void setRpmLength(int rpmLength) {
+        this.rpmLength = rpmLength;
     }
 
     public boolean[] getIsMvnEqual() {
@@ -63,7 +53,6 @@ public class TechInformation {
     public void setMvnLength(int mvnLength) {
         this.mvnLength = mvnLength;
     }
-
 
     public boolean isMetadataNameEqual() {
         return MetadataNameEqual;
@@ -162,11 +151,11 @@ public class TechInformation {
     }
 
     public int getScriptLength() {
-        return ScriptLength;
+        return scriptLength;
     }
 
     public void setScriptLength(int scriptLength) {
-        ScriptLength = scriptLength;
+        this.scriptLength = scriptLength;
     }
 
     public int getServicesLength() {

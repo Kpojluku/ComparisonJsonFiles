@@ -189,30 +189,43 @@
         <th>Second Json File</th>
     </tr>
 
-    <tr th:each="i:${#numbers.sequence(0, Tech.ScriptLength-1)}" th:style="${i>Tech.scriptCount}? ${Tech.check2}">
+    <tr th:each="i:${#numbers.sequence(0, Tech.scriptLength-1)}"
+        th:with =    "  isFirstElementExist = ${jsonfile1.script.length > i},
+                        isSecondElementExist = ${jsonfile2.script.length > i},
+                        isNotEqual = ${isFirstElementExist and isSecondElementExist and jsonfile1.script[i].url != jsonfile2.script[i].url},
+                        isNotEqual2 = ${isFirstElementExist and !isSecondElementExist},
+                        isNotEqual3 = ${isSecondElementExist and !isFirstElementExist},
+                        script1 = ${isFirstElementExist}? ${jsonfile1.script[i]},
+                        script2 = ${isSecondElementExist}? ${jsonfile2.script[i]}"
+        th:style="${isNotEqual2}? 'background: indianred;'"
+        th:styleappend="${isNotEqual3} ? 'background: greenyellow;'">
 
         <td align="center"><p th:utext="${i+1}">..</p></td>
 
         <td align="center">
-            <th:block th:if="${jsonfile1.script.length > i}">
-                <p th:utext="' service-short-name: '  + ${jsonfile1.script[i].service_short_name}" th:style="${jsonfile2.script.length > i and jsonfile1.script[i].service_short_name != jsonfile2.script[i].service_short_name }?'background: lightskyblue;'">..</p>
-                <p th:utext="' start-point: ' + ${jsonfile1.script[i].start_point}" th:style="${jsonfile2.script.length > i and jsonfile1.script[i].start_point != jsonfile2.script[i].start_point }?'background: lightskyblue;'">..</p>
-                <p th:utext="' end-point: ' + ${jsonfile1.script[i].end_point}" th:style="${jsonfile2.script.length > i and jsonfile1.script[i].end_point != jsonfile2.script[i].end_point }?'background: lightskyblue;'">..</p>
-                <p th:utext="' script_name: ' + ${jsonfile1.script[i].script_name}" th:style="${jsonfile2.script.length > i and jsonfile1.script[i].script_name != jsonfile2.script[i].script_name }?'background: lightskyblue;'">..</p>
-                <p th:utext="' sha1: ' + ${jsonfile1.script[i].hashes.sha1}" th:style="${jsonfile2.script.length > i and jsonfile1.script[i].hashes.sha1 != jsonfile2.script[i].hashes.sha1 }?'background: lightskyblue;'">..</p>
-                <p th:utext="' sha256: ' + ${jsonfile1.script[i].hashes.sha256}" th:style="${jsonfile2.script.length > i and jsonfile1.script[i].hashes.sha256 != jsonfile2.script[i].hashes.sha256 }?'background: lightskyblue;'">..</p>
-                <p th:utext="' url: ' + ${jsonfile1.script[i].url}" th:style="${jsonfile2.script.length > i and jsonfile1.script[i].url != jsonfile2.script[i].url }?'background: lightskyblue;'">..</p>
+            <th:block th:if="${isFirstElementExist}">
+                <div  th:style="${isNotEqual}? 'background: indianred;'">
+                <p th:utext="${script1.service_short_name != null}?' service-short-name: '  + ${script1.service_short_name} : '..'" th:style="${!isNotEqual and isSecondElementExist and script1.service_short_name != script2.service_short_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="${script1.start_point != null}?' start-point: ' + ${script1.start_point}: '..'" th:style="${!isNotEqual and isSecondElementExist and script1.start_point != script2.start_point }?'background: lightskyblue;'">..</p>
+                <p th:utext="${script1.end_point != null}?' end-point: ' + ${script1.end_point}: '..'" th:style="${!isNotEqual and isSecondElementExist and script1.end_point != script2.end_point }?'background: lightskyblue;'">..</p>
+                <p th:utext="' script_name: ' + ${script1.script_name}" th:style="${!isNotEqual and isSecondElementExist and script1.script_name != script2.script_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha1: ' + ${script1.hashes.sha1}" th:style="${!isNotEqual and isSecondElementExist and script1.hashes.sha1 != script2.hashes.sha1 }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha256: ' + ${script1.hashes.sha256}" th:style="${!isNotEqual and isSecondElementExist and script1.hashes.sha256 != script2.hashes.sha256 }?'background: lightskyblue;'">..</p>
+                <p th:utext="' url: ' + ${script1.url}" th:style="${!isNotEqual and isSecondElementExist and script1.url != script2.url }?'background: lightskyblue;'">..</p>
+                </div>
             </th:block>
         </td>
         <td align="center">
-            <th:block th:if="${jsonfile2.script.length > i}">
-                <p th:utext="' service-short-name: '  + ${jsonfile2.script[i].service_short_name}" th:style="${jsonfile1.script.length > i and jsonfile1.script[i].service_short_name != jsonfile2.script[i].service_short_name }?'background: lightskyblue;'">..</p>
-                <p th:utext="' start-point: ' + ${jsonfile2.script[i].start_point}" th:style="${jsonfile1.script.length > i and jsonfile1.script[i].start_point != jsonfile2.script[i].start_point }?'background: lightskyblue;'">..</p>
-                <p th:utext="' end-point: ' + ${jsonfile2.script[i].end_point}" th:style="${jsonfile1.script.length > i and jsonfile1.script[i].end_point != jsonfile2.script[i].end_point }?'background: lightskyblue;'">..</p>
-                <p th:utext="' script_name: ' + ${jsonfile2.script[i].script_name}" th:style="${jsonfile1.script.length > i and jsonfile1.script[i].script_name != jsonfile2.script[i].script_name }?'background: lightskyblue;'">..</p>
-                <p th:utext="' sha1: ' + ${jsonfile2.script[i].hashes.sha1}" th:style="${jsonfile1.script.length > i and jsonfile1.script[i].hashes.sha1 != jsonfile2.script[i].hashes.sha1 }?'background: lightskyblue;'">..</p>
-                <p th:utext="' sha256: ' + ${jsonfile2.script[i].hashes.sha256}" th:style="${jsonfile1.script.length > i and jsonfile1.script[i].hashes.sha256 != jsonfile2.script[i].hashes.sha256 }?'background: lightskyblue;'">..</p>
-                <p th:utext="' url: ' + ${jsonfile2.script[i].url}" th:style="${jsonfile1.script.length > i and jsonfile1.script[i].url != jsonfile2.script[i].url }?'background: lightskyblue;'">..</p>
+            <th:block th:if="${isSecondElementExist}">
+                <div  th:style="${isNotEqual}? 'background: greenyellow;'">
+                <p th:utext="${script2.service_short_name != null}?' service-short-name: '  + ${script2.service_short_name} : '..'" th:style="${!isNotEqual and isFirstElementExist and script1.service_short_name != script2.service_short_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="${script2.service_short_name != null}?' start-point: ' + ${script2.start_point} : '..'" th:style="${!isNotEqual and isFirstElementExist and script1.start_point != script2.start_point }?'background: lightskyblue;'">..</p>
+                <p th:utext="${script2.service_short_name != null}?' end-point: ' + ${script2.end_point} : '..'" th:style="${!isNotEqual and isFirstElementExist and script1.end_point != script2.end_point }?'background: lightskyblue;'">..</p>
+                <p th:utext="' script_name: ' + ${script2.script_name}" th:style="${!isNotEqual and isFirstElementExist and script1.script_name != script2.script_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha1: ' + ${script2.hashes.sha1}" th:style="${!isNotEqual and isFirstElementExist and script1.hashes.sha1 != script2.hashes.sha1 }?'background: lightskyblue;'">..</p>
+                <p th:utext="' sha256: ' + ${script2.hashes.sha256}" th:style="${!isNotEqual and isFirstElementExist and script1.hashes.sha256 != script2.hashes.sha256 }?'background: lightskyblue;'">..</p>
+                <p th:utext="' url: ' + ${script2.url}" th:style="${!isNotEqual and isFirstElementExist and script1.url != script2.url }?'background: lightskyblue;'">..</p>
+                </div>
             </th:block>
         </td>
     </tr>
@@ -221,26 +234,43 @@
 <h3 align="center">rpm</h3>
 <table>
     <tr>
+        <th></th>
         <th>First Json File</th>
         <th>Second Json File</th>
     </tr>
-    <tr>
+    <tr th:each="i:${#numbers.sequence(0, Tech.rpmLength-1)}"
+        th:with =    "  isFirstElementExist = ${jsonfile1.rpm.length > i},
+                        isSecondElementExist = ${jsonfile2.rpm.length > i},
+                        isNotEqual = ${isFirstElementExist and isSecondElementExist and jsonfile1.rpm[i].url != jsonfile2.rpm[i].url},
+                        isNotEqual2 = ${isFirstElementExist and !isSecondElementExist},
+                        isNotEqual3 = ${isSecondElementExist and !isFirstElementExist},
+                        rpm1 = ${isFirstElementExist}? ${jsonfile1.rpm[i]},
+                        rpm2 = ${isSecondElementExist}? ${jsonfile2.rpm[i]}"
+        th:style="${isNotEqual2}? 'background: indianred;'"
+        th:styleappend="${isNotEqual3} ? 'background: greenyellow;'">
+
+        <td align="center"><p th:utext="${i+1}">..</p></td>
+
         <td align="center">
-            <th:block>
-                <p th:text="'url: ' + ${jsonfile1.rpm.url}"/>
-                <p th:text="'rpm_repository_name: ' + ${jsonfile1.rpm.rpm_repository_name}"/>
-                <p th:text="'sha1: ' + ${jsonfile1.rpm.hashes.sha1}"/>
-                <p th:text="'sha256: ' + ${jsonfile1.rpm.hashes.sha256}"/>
-                <p th:text="'service-short-name: ' + ${jsonfile1.rpm.service_short_name}"/>
+            <th:block th:if="${isFirstElementExist}">
+                <div  th:style="${isNotEqual}? 'background: indianred;'">
+                <p th:utext="'url: ' + ${rpm1.url}" th:style="${!isNotEqual and isSecondElementExist and rpm1.url != rpm2.url }?'background: lightskyblue;'">..</p>
+                <p th:utext="'rpm_repository_name: ' + ${rpm1.rpm_repository_name}" th:style="${!isNotEqual and isSecondElementExist and rpm1.rpm_repository_name != rpm2.rpm_repository_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="'sha1: ' + ${rpm1.hashes.sha1}" th:style="${!isNotEqual and isSecondElementExist and rpm1.hashes.sha1 != rpm2.hashes.sha1 }?'background: lightskyblue;'">..</p>
+                <p th:utext="'sha256: ' + ${rpm1.hashes.sha256}" th:style="${!isNotEqual and isSecondElementExist and rpm1.hashes.sha256 != rpm2.hashes.sha256 }?'background: lightskyblue;'">..</p>
+                <p th:utext="${rpm1.service_short_name != null}? 'service-short-name: ' + ${rpm1.service_short_name} : '..'" th:style="${!isNotEqual and isSecondElementExist and rpm1.service_short_name != rpm2.service_short_name }?'background: lightskyblue;'">..</p>
+                </div>
             </th:block>
         </td>
         <td align="center">
-            <th:block>
-                <p th:text="'url: ' + ${jsonfile2.rpm.url}"/>
-                <p th:text="'rpm_repository_name: ' + ${jsonfile2.rpm.rpm_repository_name}"/>
-                <p th:text="'sha1: ' + ${jsonfile2.rpm.hashes.sha1}"/>
-                <p th:text="'sha256: ' + ${jsonfile2.rpm.hashes.sha256}"/>
-                <p th:text="'service-short-name: ' + ${jsonfile2.rpm.service_short_name}"/>
+            <th:block th:if="${isSecondElementExist}">
+                <div  th:style="${isNotEqual}? 'background: greenyellow;'">
+                <p th:utext="'url: ' + ${rpm2.url}" th:style="${!isNotEqual and isFirstElementExist and rpm1.url != rpm2.url }?'background: lightskyblue;'">..</p>
+                <p th:utext="'rpm_repository_name: ' + ${rpm2.rpm_repository_name}" th:style="${!isNotEqual and isFirstElementExist and rpm1.rpm_repository_name != rpm2.rpm_repository_name }?'background: lightskyblue;'">..</p>
+                <p th:utext="'sha1: ' + ${rpm2.hashes.sha1}" th:style="${!isNotEqual and isFirstElementExist and rpm1.hashes.sha1 != rpm2.hashes.sha1 }?'background: lightskyblue;'">..</p>
+                <p th:utext="'sha256: ' + ${rpm2.hashes.sha256}" th:style="${!isNotEqual and isFirstElementExist and rpm1.hashes.sha256 != rpm2.hashes.sha256 }?'background: lightskyblue;'">..</p>
+                <p th:utext="${rpm2.service_short_name != null}? 'service-short-name: ' + ${rpm2.service_short_name} : '..'" th:style="${!isNotEqual and isFirstElementExist and rpm1.service_short_name != rpm2.service_short_name }?'background: lightskyblue;'">..</p>
+                </div>
             </th:block>
         </td>
     </tr>

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goltsov.model.objects.Mvn;
+import com.goltsov.model.objects.Rpm;
+import com.goltsov.model.objects.Script;
 import com.goltsov.model.objects.Services;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +49,8 @@ public class JsonComparator {
 
         setMaxServiceNameLength(jsonFile1, jsonFile2, techInformation);
 
+        setMaxRpmLength(jsonFile1, jsonFile2, techInformation);
+
         techInformation.setMetadataVersionEqual(jsonFile1.getMetadata().getDescription().getVersion() ==
                 jsonFile2.getMetadata().getDescription().getVersion());
 
@@ -71,19 +75,19 @@ public class JsonComparator {
             sortMvn(jsonFile2, jsonFile1);
         }
 
-        // выделение блока для скрита
-        if (jsonFile1.getScript().length == jsonFile2.getScript().length) {
-            techInformation.setCheck2(null);
-            techInformation.setScriptCount(100000);
-        } else if (jsonFile1.getScript().length > jsonFile2.getScript().length) {
-            int count = jsonFile1.getScript().length - (jsonFile1.getScript().length - jsonFile2.getScript().length) - 1;
-            techInformation.setCheck2("background: indianred;");
-            techInformation.setScriptCount(count);
+        //сортировка массива для script
+        if (jsonFile2.getScript().length >= jsonFile1.getScript().length) {
+            sortScript(jsonFile1, jsonFile2);
         } else {
-            int count = jsonFile2.getScript().length - (jsonFile2.getScript().length - jsonFile1.getScript().length) - 1;
-            techInformation.setCheck2("background: greenyellow;");
-            techInformation.setScriptCount(count);
+            sortScript(jsonFile2, jsonFile1);
         }
+        //сортировка массива для rpm
+        if (jsonFile2.getRpm().length >= jsonFile1.getRpm().length) {
+            sortRpm(jsonFile1, jsonFile2);
+        } else {
+            sortRpm(jsonFile2, jsonFile1);
+        }
+
         // для artifacts максимальный размер массива mvn
         if (jsonFile1.getArtifacts() != null) {
             techInformation.setMvnLength(jsonFile1.getArtifacts()[0].getMvn().length);
@@ -101,19 +105,25 @@ public class JsonComparator {
         // заполняем массив isMvnEqual , чтобы узнать какие зависимости отличаются
         boolean[] checkMvn = new boolean[techInformation.getMinMvnLength()];
         for (int i = 0; i < techInformation.getMinMvnLength(); i++) {
-            if (!jsonFile1.getArtifacts()[0].getMvn()[i].getGroupId().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getGroupId()) ||
-                    !jsonFile1.getArtifacts()[0].getMvn()[i].getArtifactId().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getArtifactId()) ||
-                    !jsonFile1.getArtifacts()[0].getMvn()[i].getVersion().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getVersion()) ||
-                    !jsonFile1.getArtifacts()[0].getMvn()[i].getMvn_type().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getMvn_type())) {
-                checkMvn[i] = false;
-            } else {
-                checkMvn[i] = true;
-            }
+            checkMvn[i] = jsonFile1.getArtifacts()[0].getMvn()[i].getGroupId().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getGroupId()) &&
+                    jsonFile1.getArtifacts()[0].getMvn()[i].getArtifactId().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getArtifactId()) &&
+                    jsonFile1.getArtifacts()[0].getMvn()[i].getVersion().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getVersion()) &&
+                    jsonFile1.getArtifacts()[0].getMvn()[i].getMvn_type().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getMvn_type());
         }
         techInformation.setIsMvnEqual(checkMvn);
 
 
         return "report";
+    }
+
+
+    private void setMaxRpmLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
+        if (jsonFile1.getRpm() != null) {
+            techInformation.setRpmLength(jsonFile1.getRpm().length);
+        }
+        if (jsonFile2.getRpm() != null && jsonFile2.getRpm().length > techInformation.getRpmLength()) {
+            techInformation.setRpmLength(jsonFile2.getRpm().length);
+        }
     }
 
 
@@ -168,6 +178,29 @@ public class JsonComparator {
                     Mvn tmp2 = jsonFile2.getArtifacts()[0].getMvn()[i];
                     jsonFile2.getArtifacts()[0].getMvn()[i] = jsonFile2.getArtifacts()[0].getMvn()[j];
                     jsonFile2.getArtifacts()[0].getMvn()[j] = tmp2;
+                }
+            }
+        }
+    }
+    private void sortScript(JsonFile jsonFile1, JsonFile jsonFile2) {
+        for (int i = 0; i < jsonFile1.getScript().length; i++) {
+            for (int j = 0; j < jsonFile2.getScript().length; j++) {
+                if (jsonFile1.getScript()[i].getUrl().equals(jsonFile2.getScript()[j].getUrl())) {
+                    Script tmp2 = jsonFile2.getScript()[i];
+                    jsonFile2.getScript()[i] = jsonFile2.getScript()[j];
+                    jsonFile2.getScript()[j] = tmp2;
+                }
+            }
+        }
+    }
+
+    private void sortRpm(JsonFile jsonFile1, JsonFile jsonFile2) {
+        for (int i = 0; i < jsonFile1.getRpm().length; i++) {
+            for (int j = 0; j < jsonFile2.getRpm().length; j++) {
+                if (jsonFile1.getRpm()[i].getUrl().equals(jsonFile2.getRpm()[j].getUrl())) {
+                    Rpm tmp2 = jsonFile2.getRpm()[i];
+                    jsonFile2.getRpm()[i] = jsonFile2.getRpm()[j];
+                    jsonFile2.getRpm()[j] = tmp2;
                 }
             }
         }
