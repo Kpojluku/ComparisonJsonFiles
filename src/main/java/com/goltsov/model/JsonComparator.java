@@ -3,10 +3,7 @@ package com.goltsov.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goltsov.model.objects.Mvn;
-import com.goltsov.model.objects.Rpm;
-import com.goltsov.model.objects.Script;
-import com.goltsov.model.objects.Services;
+import com.goltsov.model.objects.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -74,6 +71,12 @@ public class JsonComparator {
         } else {
             sortMvn(jsonFile2, jsonFile1);
         }
+        //Сортировка массива для Artifacts
+        if (jsonFile2.getArtifacts().length >= jsonFile1.getArtifacts().length) {
+            sortArtifacts(jsonFile1, jsonFile2);
+        } else {
+            sortArtifacts(jsonFile2, jsonFile1);
+        }
 
         //сортировка массива для script
         if (jsonFile2.getScript().length >= jsonFile1.getScript().length) {
@@ -114,6 +117,18 @@ public class JsonComparator {
 
 
         return "report";
+    }
+
+    private void sortArtifacts(JsonFile jsonFile1, JsonFile jsonFile2) {
+        for (int i = 1; i < jsonFile1.getArtifacts().length; i++) {
+            for (int j = 1; j < jsonFile2.getArtifacts().length; j++) {
+                if (jsonFile1.getArtifacts()[i].getFile()[0].equals(jsonFile2.getArtifacts()[j].getFile()[0])) {
+                    Artifacts tmp2 = jsonFile2.getArtifacts()[i];
+                    jsonFile2.getArtifacts()[i] = jsonFile2.getArtifacts()[j];
+                    jsonFile2.getArtifacts()[j] = tmp2;
+                }
+            }
+        }
     }
 
 
