@@ -3,26 +3,39 @@ package com.goltsov;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.goltsov.model.JsonComparator;
 import com.goltsov.model.JsonFile;
+import com.goltsov.model.TechInformation;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Test {
     public static void main(String[] args) {
-//        JsonComparator comparator = new JsonComparator();
-//        JsonFile jsonFile1;
-//        JsonFile jsonFile2;
-//        try {
-//            jsonFile1 = comparator.getJsonFile(getJson1());
-//            jsonFile2 = comparator.getJsonFile(getJson2());
-//            comparator.compare(jsonFile1, jsonFile2);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
+        JsonComparator comparator = new JsonComparator();
+        JsonFile jsonFile1 = null;
+        JsonFile jsonFile2;
+        try {
+            jsonFile1 = comparator.getJsonFile(getJson1());
+            jsonFile2 = comparator.getJsonFile(getJson2());
+       //     comparator.compare(jsonFile1, jsonFile2, new TechInformation());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
-//        Map<String, Map<String, String>> map = new LinkedHashMap<>();
+       Map<String, Map<String, String>> services = new LinkedHashMap<>();
+       Map<String, String> map = new LinkedHashMap<>();
+       map.put("test2", "test2");
+       map.put("test1", "test1");
+       map.put("test3", "test3");
+
+//сортировка LinkedHashMap по ключу
+            List<Map.Entry<String, String>> entries = new ArrayList<>(map.entrySet());
+        map.clear();
+            entries.stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .forEachOrdered(e -> map.put(e.getKey(), e.getValue()));
+        System.out.println(map);
+
+
+
 
 
     }

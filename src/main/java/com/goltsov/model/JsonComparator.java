@@ -91,6 +91,15 @@ public class JsonComparator {
             sortRpm(jsonFile2, jsonFile1);
         }
 
+        //сортировка массива ключей для Common
+        if (techInformation.getCommonKeys2().length >= techInformation.getCommonKeys1().length) {
+            sortCommon(techInformation.getCommonKeys1(), techInformation.getCommonKeys2());
+        } else {
+            sortCommon(techInformation.getCommonKeys2(), techInformation.getCommonKeys1());
+        }
+
+
+
         // для artifacts максимальный размер массива mvn
         if (jsonFile1.getArtifacts() != null) {
             techInformation.setMvnLength(jsonFile1.getArtifacts()[0].getMvn().length);
@@ -162,9 +171,9 @@ public class JsonComparator {
         for (int i = 0; i < arr1.length; i++) {
             for (int j = 0; j < arr2.length; j++) {
                 if (keys1[i].equals(keys2[j])) {
-                    Object tmp2 = arr2[i];
+                    Object tmp = arr2[i];
                     arr2[i] = arr2[j];
-                    arr2[j] = tmp2;
+                    arr2[j] = tmp;
                 }
             }
         }
@@ -176,9 +185,9 @@ public class JsonComparator {
             for (int j = 0; j < jsonFile2.getServices().length; j++) {
                 if (jsonFile1.getServices()[i].getDocker_image_name().equals(jsonFile2.getServices()[j].getDocker_image_name())
                         && jsonFile1.getServices()[i].getDocker_tag().equals(jsonFile2.getServices()[j].getDocker_tag())) {
-                    Services tmp2 = jsonFile2.getServices()[i];
+                    Services tmp = jsonFile2.getServices()[i];
                     jsonFile2.getServices()[i] = jsonFile2.getServices()[j];
-                    jsonFile2.getServices()[j] = tmp2;
+                    jsonFile2.getServices()[j] = tmp;
                 }
             }
         }
@@ -190,9 +199,9 @@ public class JsonComparator {
                         jsonFile1.getArtifacts()[0].getMvn()[i].getArtifactId().equals(jsonFile2.getArtifacts()[0].getMvn()[j].getArtifactId()) &&
                         jsonFile1.getArtifacts()[0].getMvn()[i].getVersion().equals(jsonFile2.getArtifacts()[0].getMvn()[j].getVersion()) &&
                         jsonFile1.getArtifacts()[0].getMvn()[i].getMvn_type().equals(jsonFile2.getArtifacts()[0].getMvn()[j].getMvn_type())) {
-                    Mvn tmp2 = jsonFile2.getArtifacts()[0].getMvn()[i];
+                    Mvn tmp = jsonFile2.getArtifacts()[0].getMvn()[i];
                     jsonFile2.getArtifacts()[0].getMvn()[i] = jsonFile2.getArtifacts()[0].getMvn()[j];
-                    jsonFile2.getArtifacts()[0].getMvn()[j] = tmp2;
+                    jsonFile2.getArtifacts()[0].getMvn()[j] = tmp;
                 }
             }
         }
@@ -201,9 +210,9 @@ public class JsonComparator {
         for (int i = 0; i < jsonFile1.getScript().length; i++) {
             for (int j = 0; j < jsonFile2.getScript().length; j++) {
                 if (jsonFile1.getScript()[i].getUrl().equals(jsonFile2.getScript()[j].getUrl())) {
-                    Script tmp2 = jsonFile2.getScript()[i];
+                    Script tmp = jsonFile2.getScript()[i];
                     jsonFile2.getScript()[i] = jsonFile2.getScript()[j];
-                    jsonFile2.getScript()[j] = tmp2;
+                    jsonFile2.getScript()[j] = tmp;
                 }
             }
         }
@@ -213,9 +222,20 @@ public class JsonComparator {
         for (int i = 0; i < jsonFile1.getRpm().length; i++) {
             for (int j = 0; j < jsonFile2.getRpm().length; j++) {
                 if (jsonFile1.getRpm()[i].getUrl().equals(jsonFile2.getRpm()[j].getUrl())) {
-                    Rpm tmp2 = jsonFile2.getRpm()[i];
+                    Rpm tmp = jsonFile2.getRpm()[i];
                     jsonFile2.getRpm()[i] = jsonFile2.getRpm()[j];
-                    jsonFile2.getRpm()[j] = tmp2;
+                    jsonFile2.getRpm()[j] = tmp;
+                }
+            }
+        }
+    }
+    private void sortCommon(String[] keys1, String[] keys2) {
+        for (int i = 0; i < keys1.length; i++) {
+            for (int j = 0; j < keys2.length; j++) {
+                if (keys1[i].equals(keys2[j])) {
+                    String tmp = keys2[i];
+                    keys2[i] = keys2[j];
+                    keys2[j] = tmp;
                 }
             }
         }

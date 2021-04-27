@@ -20,7 +20,7 @@
         <th>First Json File</th>
         <th>Second Json File</th>
     </tr>
-    <tr th:style="${Tech.MetadataNameEqual}? '' : 'color: lightskyblue;'">
+    <tr th:style="${Tech.MetadataNameEqual}? '' : 'background: lightskyblue;'">
         <td align="center">
             <p th:text="'name: ' + ${jsonfile1.metadata.application.name}"/>
         </td>
@@ -28,7 +28,7 @@
             <p th:text="'name: ' + ${jsonfile2.metadata.application.name}"/>
         </td>
     </tr>
-    <tr th:style="${Tech.MetadataVersionEqual}? '' : 'color: lightskyblue;'">
+    <tr th:style="${Tech.MetadataVersionEqual}? '' : 'background: lightskyblue;'">
         <td align="center">
             <p th:text="'version: ' + ${jsonfile1.metadata.description.version}"/>
         </td>
@@ -437,22 +437,32 @@
 
     <tr>
         <td align="center">
+
             <p>common:</p>
             <th:block th:each="i:${#numbers.sequence(0, Tech.commonLength-1)}">
-                <p th:utext="${#maps.size(jsonfile1.parameters.common) > i} ? ${Tech.commonKeys1[i]} + ' : ' + ${Tech.commonValues1[i]} : '_'">
+                      <div th:style="${#maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? 'background: indianred;'"
+                           th:styleappend="${#maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? 'background: greenyellow;'">
+                <p th:utext="${#maps.size(jsonfile1.parameters.common) > i} ? ${Tech.commonKeys1[i]} + ' : ' + ${jsonfile1.parameters.common.get(Tech.commonKeys1[i])} : '..'"
+                   th:style="${#maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?'background: lightskyblue;'">
                     ..</p>
+                      </div>
             </th:block>
             <p>services:</p>
             <th:block th:each="i:${#numbers.sequence(0, Tech.serviceNameLength-1)}">
-                <p th:utext="${#maps.size(jsonfile1.parameters.services.service_name) > i} ? ${Tech.serviceKeys1[i]} + ' : ' + ${Tech.serviceValues1[i]} : '_'">
+                <p th:utext="${#maps.size(jsonfile1.parameters.services.service_name) > i} ? ${Tech.serviceKeys1[i]} + ' : ' + ${Tech.serviceValues1[i]} : '..'">
                     ..</p>
             </th:block>
         </td>
         <td align="center">
             <p>common:</p>
             <th:block th:each="i:${#numbers.sequence(0, Tech.commonLength-1)}">
-                <p th:utext="${#maps.size(jsonfile2.parameters.common) > i} ? ${Tech.commonKeys2[i]} + ' : ' + ${Tech.commonValues2[i]} : '_'">
+                <div th:style="${#maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? 'background: indianred;'"
+                     th:styleappend="${#maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? 'background: greenyellow;'">
+                <p th:utext="${#maps.size(jsonfile2.parameters.common) > i} ? ${Tech.commonKeys2[i]} + ' : ' + ${jsonfile2.parameters.common.get(Tech.commonKeys2[i])} : '..'"
+                   th:style="${#maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?'background: lightskyblue;'">
+
                     ..</p>
+                </div>
             </th:block>
             <p>services:</p>
             <th:block th:each="i:${#numbers.sequence(0, Tech.serviceNameLength-1)}">
