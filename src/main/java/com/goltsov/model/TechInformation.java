@@ -21,7 +21,34 @@ public class TechInformation {
     private boolean[] isMvnEqual;
     private ArrayList<String[]> servicePrmKeys1;
     private ArrayList<String[]> servicePrmKeys2;
-    int[] maxServPrmArraysLength;
+    private int[] maxServPrmArraysLength;
+    private String lightskyblue = "background: lightskyblue;";
+    private String indianred = "background: indianred;";
+    private String greenyellow = "background: greenyellow;";
+
+    public String getGreenyellow() {
+        return greenyellow;
+    }
+
+    public void setGreenyellow(String greenyellow) {
+        this.greenyellow = greenyellow;
+    }
+
+    public String getIndianred() {
+        return indianred;
+    }
+
+    public void setIndianred(String indianred) {
+        this.indianred = indianred;
+    }
+
+    public String getLightskyblue() {
+        return lightskyblue;
+    }
+
+    public void setLightskyblue(String lightskyblue) {
+        this.lightskyblue = lightskyblue;
+    }
 
     public int[] getMaxServPrmArraysLength() {
         return maxServPrmArraysLength;
