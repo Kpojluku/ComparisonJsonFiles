@@ -1,5 +1,7 @@
 package com.goltsov.model;
 
+import java.util.ArrayList;
+
 public class TechInformation {
     private int servicesLength;
     private int artifactsLength;
@@ -7,20 +9,43 @@ public class TechInformation {
     private int commonLength;
     private int rpmLength;
     private String[] commonKeys1;
-    private String[] commonValues1;
     private String[] commonKeys2;
-    private String[] commonValues2;
     private int serviceNameLength;
+    private int minServiceNameLength;
     private String[] serviceKeys1;
-    private String[] serviceValues1;
     private String[] serviceKeys2;
-    private String[] serviceValues2;
     private boolean MetadataVersionEqual;
     private boolean MetadataNameEqual;
     private int mvnLength;
     private int minMvnLength;
     private boolean[] isMvnEqual;
+    private ArrayList<String[]> servicePrmKeys1;
+    private ArrayList<String[]> servicePrmKeys2;
+    int[] maxServPrmArraysLength;
 
+    public int[] getMaxServPrmArraysLength() {
+        return maxServPrmArraysLength;
+    }
+
+    public void setMaxServPrmArraysLength(int[] maxServPrmArraysLength) {
+        this.maxServPrmArraysLength = maxServPrmArraysLength;
+    }
+
+    public ArrayList<String[]> getServicePrmKeys1() {
+        return servicePrmKeys1;
+    }
+
+    public void setServicePrmKeys1(ArrayList<String[]> serviceParamKeys1) {
+        this.servicePrmKeys1 = serviceParamKeys1;
+    }
+
+    public ArrayList<String[]> getServicePrmKeys2() {
+        return servicePrmKeys2;
+    }
+
+    public void setServicePrmKeys2(ArrayList<String[]> serviceParamKeys2) {
+        this.servicePrmKeys2 = serviceParamKeys2;
+    }
 
     public int getRpmLength() {
         return rpmLength;
@@ -78,20 +103,20 @@ public class TechInformation {
         this.serviceNameLength = serviceNameLength;
     }
 
+    public int getMinServiceNameLength() {
+        return minServiceNameLength;
+    }
+
+    public void setMinServiceNameLength(int minServiceNameLength) {
+        this.minServiceNameLength = minServiceNameLength;
+    }
+
     public String[] getServiceKeys1() {
         return serviceKeys1;
     }
 
     public void setServiceKeys1(String[] serviceKeys1) {
         this.serviceKeys1 = serviceKeys1;
-    }
-
-    public String[] getServiceValues1() {
-        return serviceValues1;
-    }
-
-    public void setServiceValues1(String[] serviceValues1) {
-        this.serviceValues1 = serviceValues1;
     }
 
     public String[] getServiceKeys2() {
@@ -102,14 +127,6 @@ public class TechInformation {
         this.serviceKeys2 = serviceKeys2;
     }
 
-    public String[] getServiceValues2() {
-        return serviceValues2;
-    }
-
-    public void setServiceValues2(String[] serviceValues2) {
-        this.serviceValues2 = serviceValues2;
-    }
-
     public String[] getCommonKeys1() {
         return commonKeys1;
     }
@@ -118,28 +135,12 @@ public class TechInformation {
         this.commonKeys1 = commonKeys1;
     }
 
-    public String[] getCommonValues1() {
-        return commonValues1;
-    }
-
-    public void setCommonValues1(String[] commonValues1) {
-        this.commonValues1 = commonValues1;
-    }
-
     public String[] getCommonKeys2() {
         return commonKeys2;
     }
 
     public void setCommonKeys2(String[] commonKeys2) {
         this.commonKeys2 = commonKeys2;
-    }
-
-    public String[] getCommonValues2() {
-        return commonValues2;
-    }
-
-    public void setCommonValues2(String[] commonValues2) {
-        this.commonValues2 = commonValues2;
     }
 
     public int getCommonLength() {

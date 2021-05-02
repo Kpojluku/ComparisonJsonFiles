@@ -20,19 +20,25 @@ public class Test {
             e.printStackTrace();
         }
 
+
        Map<String, Map<String, String>> services = new LinkedHashMap<>();
        Map<String, String> map = new LinkedHashMap<>();
        map.put("test2", "test2");
        map.put("test1", "test1");
        map.put("test3", "test3");
+       services.put("1", map);
 
-//сортировка LinkedHashMap по ключу
-            List<Map.Entry<String, String>> entries = new ArrayList<>(map.entrySet());
-        map.clear();
-            entries.stream()
-                    .sorted(Map.Entry.comparingByKey())
-                    .forEachOrdered(e -> map.put(e.getKey(), e.getValue()));
-        System.out.println(map);
+        Map<String, String> tmp1 = services.get("1");
+
+        System.out.println(tmp1);
+////сортировка LinkedHashMap по ключу
+//            List<Map.Entry<String, String>> entries = new ArrayList<>(map.entrySet());
+//        map.clear();
+//            entries.stream()
+//                    .sorted(Map.Entry.comparingByKey())
+//                    .forEachOrdered(e -> map.put(e.getKey(), e.getValue()));
+//        System.out.println(map);
+
 
 
 

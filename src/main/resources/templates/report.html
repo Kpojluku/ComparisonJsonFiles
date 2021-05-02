@@ -260,25 +260,25 @@
                 </th:block>
                 <th:block th:if="${i > 0}">
                     <div th:style="${isNotEqual}? 'background: greenyellow;'">
-                    <p th:utext="${artifactsElement2.service_short_name != null} ?' service-short-name: '  + ${artifactsElement2.service_short_name} : '..'"
-                       th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.service_short_name != artifactsElement2.service_short_name }? 'background: lightskyblue;'">
-                        ..</p>
-                    <p th:utext="${artifactsElement2.service_name != null} ?' service_name: '  + ${artifactsElement2.service_name} : '..'"
-                       th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.service_name != artifactsElement2.service_name }? 'background: lightskyblue;'">
-                        ..</p>
-                    <p th:utext="' sha1: '  + ${artifactsElement2.hashes.sha1}"
-                       th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.hashes.sha1 != artifactsElement2.hashes.sha1 }? 'background: lightskyblue;'">
-                        ..</p>
-                    <p th:utext="' sha256: '  + ${artifactsElement2.hashes.sha256}"
-                       th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.hashes.sha256 != artifactsElement2.hashes.sha256 }? 'background: lightskyblue;'">
-                        ..</p>
-                    <p th:utext="' file: '  + ${artifactsElement2.file[0]}"
-                       th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.file[0] != artifactsElement2.file[0] }? 'background: lightskyblue;'">
-                        ..</p>
-                    <p th:utext="' target_repository: '  + ${artifactsElement2.target_repository}"
-                       th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.target_repository != artifactsElement2.target_repository }? 'background: lightskyblue;'">
-                        ..</p>
-                        </div>
+                        <p th:utext="${artifactsElement2.service_short_name != null} ?' service-short-name: '  + ${artifactsElement2.service_short_name} : '..'"
+                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.service_short_name != artifactsElement2.service_short_name }? 'background: lightskyblue;'">
+                            ..</p>
+                        <p th:utext="${artifactsElement2.service_name != null} ?' service_name: '  + ${artifactsElement2.service_name} : '..'"
+                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.service_name != artifactsElement2.service_name }? 'background: lightskyblue;'">
+                            ..</p>
+                        <p th:utext="' sha1: '  + ${artifactsElement2.hashes.sha1}"
+                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.hashes.sha1 != artifactsElement2.hashes.sha1 }? 'background: lightskyblue;'">
+                            ..</p>
+                        <p th:utext="' sha256: '  + ${artifactsElement2.hashes.sha256}"
+                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.hashes.sha256 != artifactsElement2.hashes.sha256 }? 'background: lightskyblue;'">
+                            ..</p>
+                        <p th:utext="' file: '  + ${artifactsElement2.file[0]}"
+                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.file[0] != artifactsElement2.file[0] }? 'background: lightskyblue;'">
+                            ..</p>
+                        <p th:utext="' target_repository: '  + ${artifactsElement2.target_repository}"
+                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.target_repository != artifactsElement2.target_repository }? 'background: lightskyblue;'">
+                            ..</p>
+                    </div>
                 </th:block>
             </th:block>
         </td>
@@ -436,38 +436,90 @@
     </tr>
 
     <tr>
-        <td align="center">
+        <td valign="top" align="center">
 
-            <p>common:</p>
-            <th:block th:each="i:${#numbers.sequence(0, Tech.commonLength-1)}">
-                      <div th:style="${#maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? 'background: indianred;'"
-                           th:styleappend="${#maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? 'background: greenyellow;'">
-                <p th:utext="${#maps.size(jsonfile1.parameters.common) > i} ? ${Tech.commonKeys1[i]} + ' : ' + ${jsonfile1.parameters.common.get(Tech.commonKeys1[i])} : '..'"
-                   th:style="${#maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?'background: lightskyblue;'">
-                    ..</p>
-                      </div>
-            </th:block>
-            <p>services:</p>
-            <th:block th:each="i:${#numbers.sequence(0, Tech.serviceNameLength-1)}">
-                <p th:utext="${#maps.size(jsonfile1.parameters.services.service_name) > i} ? ${Tech.serviceKeys1[i]} + ' : ' + ${Tech.serviceValues1[i]} : '..'">
-                    ..</p>
-            </th:block>
-        </td>
-        <td align="center">
-            <p>common:</p>
+            <p><b>common:</b></p>
             <th:block th:each="i:${#numbers.sequence(0, Tech.commonLength-1)}">
                 <div th:style="${#maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? 'background: indianred;'"
                      th:styleappend="${#maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? 'background: greenyellow;'">
-                <p th:utext="${#maps.size(jsonfile2.parameters.common) > i} ? ${Tech.commonKeys2[i]} + ' : ' + ${jsonfile2.parameters.common.get(Tech.commonKeys2[i])} : '..'"
-                   th:style="${#maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?'background: lightskyblue;'">
-
-                    ..</p>
+                    <p th:utext="${#maps.size(jsonfile1.parameters.common) > i} ? ${Tech.commonKeys1[i]} + ' : ' + ${jsonfile1.parameters.common.get(Tech.commonKeys1[i])} : '..'"
+                       th:style="${#maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?'background: lightskyblue;'">
+                        ..</p>
                 </div>
             </th:block>
-            <p>services:</p>
-            <th:block th:each="i:${#numbers.sequence(0, Tech.serviceNameLength-1)}">
-                <p th:utext="${#maps.size(jsonfile2.parameters.services.service_name) > i} ? ${Tech.serviceKeys2[i]} + ' : ' + ${Tech.serviceValues2[i]} : '_'">
-                    ..</p>
+            <p><b>services:</b></p>
+            <th:block th:each="i:${#numbers.sequence(0, Tech.serviceNameLength-1)}"
+                      th:style="${#maps.size(jsonfile1.parameters.services) > i and !(#maps.size(jsonfile2.parameters.services) > i)} ? 'background: indianred;'"
+                      th:styleappend="${#maps.size(jsonfile2.parameters.services) > i and !(#maps.size(jsonfile1.parameters.services) > i)} ? 'background: greenyellow;'">
+
+                <div th:with="  isFirstServiceKeysExist = ${Tech.serviceKeys1.length > i},
+                                isSecondServiceKeysExist = ${Tech.serviceKeys2.length > i},
+                                Check = ${!isFirstServiceKeysExist and isSecondServiceKeysExist}"
+                     th:style="${Check} ? 'background: indianred;'"
+                     th:styleappend="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] != Tech.serviceKeys1[i]} ? 'background: indianred;' ">
+                    <p th:utext=" ${#maps.size(jsonfile1.parameters.services) > i}?  ${Tech.serviceKeys1[i]} : '..'">
+                        ..</p>
+
+                    <th:block th:each="j:${#numbers.sequence(0, Tech.maxServPrmArraysLength[i]-1)}">
+
+                        <div th:style="${#lists.size(Tech.servicePrmKeys1) > i and !(Tech.servicePrmKeys1.get(i).length > j) and #lists.size(Tech.servicePrmKeys2) > i and Tech.servicePrmKeys2.get(i).length > j} ? 'background: indianred;'">
+                            <div th:styleappend="${#lists.size(Tech.servicePrmKeys2) > i and !(Tech.servicePrmKeys2.get(i).length > j) and #lists.size(Tech.servicePrmKeys1) > i and Tech.servicePrmKeys1.get(i).length > j} ? 'background: greenyellow;'">
+
+                                <p th:utext="${#lists.size(Tech.servicePrmKeys1) > i and Tech.servicePrmKeys1.get(i).length > j } ? ${Tech.servicePrmKeys1.get(i)[j] + ' : ' + jsonfile1.parameters.services.get(Tech.serviceKeys1[i]).get(Tech.servicePrmKeys1.get(i)[j])} : '..'"
+
+                                   th:style="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] == Tech.serviceKeys1[i] and #lists.size(Tech.servicePrmKeys2) > i and  Tech.servicePrmKeys2.get(i).length > j and
+                           #lists.size(Tech.servicePrmKeys1) > i and Tech.servicePrmKeys1.get(i).length > j and Tech.servicePrmKeys1.get(i)[j] != Tech.servicePrmKeys2.get(i)[j]} ? 'background: indianred;'"
+
+                                   th:styleappend="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] == Tech.serviceKeys1[i] and #lists.size(Tech.servicePrmKeys2) > i and  Tech.servicePrmKeys2.get(i).length > j and
+                            #lists.size(Tech.servicePrmKeys1) > i and Tech.servicePrmKeys1.get(i).length > j and Tech.servicePrmKeys1.get(i)[j] == Tech.servicePrmKeys2.get(i)[j] and
+                            jsonfile1.parameters.services.get(Tech.serviceKeys1[i]).get(Tech.servicePrmKeys1.get(i)[j]) !=  jsonfile2.parameters.services.get(Tech.serviceKeys2[i]).get(Tech.servicePrmKeys2.get(i)[j])} ? 'background: lightskyblue;'">
+                                    ..</p>
+                            </div>
+                        </div>
+                    </th:block>
+
+                </div>
+            </th:block>
+        </td>
+        <td valign="top" align="center">
+            <p><b>common:</b></p>
+            <th:block th:each="i:${#numbers.sequence(0, Tech.commonLength-1)}">
+                <div th:style="${#maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? 'background: indianred;'"
+                     th:styleappend="${#maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? 'background: greenyellow;'">
+                    <p th:utext="${#maps.size(jsonfile2.parameters.common) > i} ? ${Tech.commonKeys2[i]} + ' : ' + ${jsonfile2.parameters.common.get(Tech.commonKeys2[i])} : '..'"
+                       th:style="${#maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?'background: lightskyblue;'">
+                        ..</p>
+                </div>
+            </th:block>
+            <p><b>services:</b></p>
+            <th:block th:each="i:${#numbers.sequence(0, Tech.serviceNameLength-1)}"
+                      th:style="${#maps.size(jsonfile2.parameters.services) > i and !(#maps.size(jsonfile1.parameters.services) > i)} ? 'background: greenyellow;'"
+                      th:styleappend="${#maps.size(jsonfile1.parameters.services) > i and !(#maps.size(jsonfile2.parameters.services) > i)} ? 'background: indianred;'">
+                <div th:with="isFirstServiceKeysExist = ${Tech.serviceKeys1.length > i},
+                              isSecondServiceKeysExist = ${Tech.serviceKeys2.length > i},
+                              Check = ${!isFirstServiceKeysExist and isSecondServiceKeysExist}"
+                     th:style="${Check} ? 'background: greenyellow;'"
+                     th:styleappend="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] != Tech.serviceKeys1[i]} ? 'background: greenyellow;' ">
+                    <p th:utext="${#maps.size(jsonfile2.parameters.services) > i}?  ${Tech.serviceKeys2[i]}">..</p>
+
+                    <th:block th:each="j:${#numbers.sequence(0, Tech.maxServPrmArraysLength[i]-1)}">
+                        <th:block
+                                th:with="servicePrmKeys = ${#lists.size(Tech.servicePrmKeys2) > i and Tech.servicePrmKeys2.get(i).length > j} ? ${Tech.servicePrmKeys2.get(i)[j]} : 'null' ">
+                            <div th:style="${#lists.size(Tech.servicePrmKeys2) > i and !(Tech.servicePrmKeys2.get(i).length > j) and #lists.size(Tech.servicePrmKeys1) > i and Tech.servicePrmKeys1.get(i).length > j} ? 'background: indianred;'">
+                                <div th:styleappend="${#lists.size(Tech.servicePrmKeys1) > i and !(Tech.servicePrmKeys1.get(i).length > j) and #lists.size(Tech.servicePrmKeys2) > i and Tech.servicePrmKeys2.get(i).length > j} ? 'background: greenyellow;'">
+                                    <p th:utext="${#lists.size(Tech.servicePrmKeys2) > i and Tech.servicePrmKeys2.get(i).length > j } ? ${Tech.servicePrmKeys2.get(i)[j] + ' : ' + jsonfile2.parameters.services.get(Tech.serviceKeys2[i]).get(Tech.servicePrmKeys2.get(i)[j])} : '..'"
+                                       th:style="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] == Tech.serviceKeys1[i] and #lists.size(Tech.servicePrmKeys2) > i and  Tech.servicePrmKeys2.get(i).length > j and
+                            #lists.size(Tech.servicePrmKeys1) > i and Tech.servicePrmKeys1.get(i).length > j and Tech.servicePrmKeys1.get(i)[j] != Tech.servicePrmKeys2.get(i)[j]} ? 'background: greenyellow;'"
+                                       th:styleappend="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] == Tech.serviceKeys1[i] and #lists.size(Tech.servicePrmKeys2) > i and  Tech.servicePrmKeys2.get(i).length > j and
+                            #lists.size(Tech.servicePrmKeys1) > i and Tech.servicePrmKeys1.get(i).length > j and Tech.servicePrmKeys1.get(i)[j] == Tech.servicePrmKeys2.get(i)[j] and
+                            jsonfile1.parameters.services.get(Tech.serviceKeys1[i]).get(Tech.servicePrmKeys1.get(i)[j]) !=  jsonfile2.parameters.services.get(Tech.serviceKeys2[i]).get(Tech.servicePrmKeys2.get(i)[j])} ? 'background: lightskyblue;'">
+                                        ..</p>
+                                </div>
+                            </div>
+                        </th:block>
+                    </th:block>
+
+                </div>
             </th:block>
         </td>
     </tr>

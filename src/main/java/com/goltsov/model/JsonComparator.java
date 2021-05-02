@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class JsonComparator {
 
@@ -45,6 +47,8 @@ public class JsonComparator {
         setMaxCommonLength(jsonFile1, jsonFile2, techInformation);
 
         setMaxServiceNameLength(jsonFile1, jsonFile2, techInformation);
+
+        setMinServiceNameLength(jsonFile1, jsonFile2, techInformation);
 
         setMaxRpmLength(jsonFile1, jsonFile2, techInformation);
 
@@ -93,28 +97,52 @@ public class JsonComparator {
 
         //сортировка массива ключей для Common
         if (techInformation.getCommonKeys2().length >= techInformation.getCommonKeys1().length) {
-            sortCommon(techInformation.getCommonKeys1(), techInformation.getCommonKeys2());
+            sortKeys(techInformation.getCommonKeys1(), techInformation.getCommonKeys2());
         } else {
-            sortCommon(techInformation.getCommonKeys2(), techInformation.getCommonKeys1());
+            sortKeys(techInformation.getCommonKeys2(), techInformation.getCommonKeys1());
         }
 
+        //сортировка массива ключей для Services
+        if (techInformation.getServiceKeys2().length >= techInformation.getServiceKeys1().length) {
+            sortKeys(techInformation.getServiceKeys1(), techInformation.getServiceKeys2());
+        } else {
+            sortKeys(techInformation.getServiceKeys2(), techInformation.getServiceKeys1());
+        }
+
+        // сортируем ключи параметров и сохраняем в список servicePrmKeys
+        sortServicesPrmKeys(jsonFile1, jsonFile2, techInformation);
 
 
         // для artifacts максимальный размер массива mvn
+        setMaxMvnLength(jsonFile1, jsonFile2, techInformation);
+        // минимальный размер для массива Mvn
+        setMinMvnLength(jsonFile1, jsonFile2, techInformation);
+        // заполняем массив isMvnEqual , чтобы узнать какие зависимости отличаются
+        fillIsMvnEqualArr(jsonFile1, jsonFile2, techInformation);
+
+
+        return "report";
+    }
+
+    private void setMaxMvnLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
         if (jsonFile1.getArtifacts() != null) {
             techInformation.setMvnLength(jsonFile1.getArtifacts()[0].getMvn().length);
         }
         if (jsonFile2.getArtifacts() != null && jsonFile2.getArtifacts()[0].getMvn().length > techInformation.getMvnLength()) {
             techInformation.setMvnLength(jsonFile2.getArtifacts()[0].getMvn().length);
         }
-        // минимальный размер
+    }
+
+    private void setMinMvnLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
         if (jsonFile1.getArtifacts() != null) {
             techInformation.setMinMvnLength(jsonFile1.getArtifacts()[0].getMvn().length);
         }
         if (jsonFile2.getArtifacts() != null && jsonFile2.getArtifacts()[0].getMvn().length < techInformation.getMinMvnLength()) {
             techInformation.setMinMvnLength(jsonFile2.getArtifacts()[0].getMvn().length);
         }
-        // заполняем массив isMvnEqual , чтобы узнать какие зависимости отличаются
+    }
+
+    private void fillIsMvnEqualArr(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
         boolean[] checkMvn = new boolean[techInformation.getMinMvnLength()];
         for (int i = 0; i < techInformation.getMinMvnLength(); i++) {
             checkMvn[i] = jsonFile1.getArtifacts()[0].getMvn()[i].getGroupId().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getGroupId()) &&
@@ -123,9 +151,62 @@ public class JsonComparator {
                     jsonFile1.getArtifacts()[0].getMvn()[i].getMvn_type().equals(jsonFile2.getArtifacts()[0].getMvn()[i].getMvn_type());
         }
         techInformation.setIsMvnEqual(checkMvn);
+    }
 
+    private void sortServicesPrmKeys(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
+        //Список, который хранит ключи - параметры Сервисов для первого файла
+        ArrayList<String[]> serviceParamKeys1 = new ArrayList<>();
+        ArrayList<String[]> serviceParamKeys2 = new ArrayList<>();
+        sortAndAddPrmToList(jsonFile1, serviceParamKeys1, techInformation.getServiceKeys1());
+        sortAndAddPrmToList(jsonFile2, serviceParamKeys2, techInformation.getServiceKeys2());
 
-        return "report";
+        // цикл по минимальному количеству элементов в Services для сортировки ключей параметров
+        for (int i = 0; i < techInformation.getMinServiceNameLength(); i++) {
+            if (techInformation.getServiceKeys1()[i].equals(techInformation.getServiceKeys2()[i])) {
+                if (serviceParamKeys2.get(i).length >= serviceParamKeys1.get(i).length) {
+                    sortKeys(serviceParamKeys1.get(i), serviceParamKeys2.get(i));
+                } else {
+                    sortKeys(serviceParamKeys2.get(i), serviceParamKeys1.get(i));
+                }
+            }
+        }
+
+        //вспомогательная переменная, хранящая максимальное количество services params из двух файлов
+        int[] maxServPrmArraysLength;
+        int maxSize = serviceParamKeys1.size();
+        ArrayList<String[]> serviceParamKeysMax = serviceParamKeys1;
+        if (serviceParamKeys2.size() > maxSize) {
+            maxSize = serviceParamKeys2.size();
+            serviceParamKeysMax = serviceParamKeys2;
+        }
+        maxServPrmArraysLength = new int[maxSize];
+        for (int i = 0; i < maxSize; i++) {
+            if (i < serviceParamKeys1.size() && i < serviceParamKeys2.size()) {
+                maxServPrmArraysLength[i] = serviceParamKeys1.get(i).length;
+                if (serviceParamKeys2.get(i).length > serviceParamKeys1.get(i).length) {
+                    maxServPrmArraysLength[i] = serviceParamKeys2.get(i).length;
+                }
+            } else {
+                maxServPrmArraysLength[i] = serviceParamKeysMax.get(i).length;
+            }
+        }
+
+        techInformation.setMaxServPrmArraysLength(maxServPrmArraysLength);
+        techInformation.setServicePrmKeys1(serviceParamKeys1);
+        techInformation.setServicePrmKeys2(serviceParamKeys2);
+    }
+
+    // метод добавляет в список массивы ключей параметров в том порядке, что и в массиве serviceKeys хранятся общие ключи
+    private void sortAndAddPrmToList(JsonFile jsonFile, ArrayList<String[]> serviceParamKeys, String[] serviceKeys) {
+        for (int i = 0; i < jsonFile.getParameters().getServices().size(); i++) {
+            int j = 0;
+            String[] prmKeys = new String[jsonFile.getParameters().getServices().get(serviceKeys[i]).size()];
+            for (Map.Entry<String, String> pair : jsonFile.getParameters().getServices().get(serviceKeys[i]).entrySet()) {
+                prmKeys[j] = pair.getKey();
+                j++;
+            }
+            serviceParamKeys.add(prmKeys);
+        }
     }
 
     private void sortArtifacts(JsonFile jsonFile1, JsonFile jsonFile2) {
@@ -192,6 +273,7 @@ public class JsonComparator {
             }
         }
     }
+
     private void sortMvn(JsonFile jsonFile1, JsonFile jsonFile2) {
         for (int i = 0; i < jsonFile1.getArtifacts()[0].getMvn().length; i++) {
             for (int j = 0; j < jsonFile2.getArtifacts()[0].getMvn().length; j++) {
@@ -206,6 +288,7 @@ public class JsonComparator {
             }
         }
     }
+
     private void sortScript(JsonFile jsonFile1, JsonFile jsonFile2) {
         for (int i = 0; i < jsonFile1.getScript().length; i++) {
             for (int j = 0; j < jsonFile2.getScript().length; j++) {
@@ -229,7 +312,8 @@ public class JsonComparator {
             }
         }
     }
-    private void sortCommon(String[] keys1, String[] keys2) {
+
+    private void sortKeys(String[] keys1, String[] keys2) {
         for (int i = 0; i < keys1.length; i++) {
             for (int j = 0; j < keys2.length; j++) {
                 if (keys1[i].equals(keys2[j])) {
@@ -242,41 +326,47 @@ public class JsonComparator {
     }
 
     private void setMaxServiceNameLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
-        if (jsonFile1.getParameters() != null && jsonFile1.getParameters().getServices() != null &&
-                jsonFile1.getParameters().getServices().getService_name() != null
-        ) {
+        if (jsonFile1.getParameters() != null && jsonFile1.getParameters().getServices() != null) {
 
-            techInformation.setServiceKeys1(jsonFile1.getParameters().getServices().getService_name().keySet().toArray(new String[0]));
-            techInformation.setServiceValues1(jsonFile1.getParameters().getServices().getService_name().values().toArray(new String[0]));
+            techInformation.setServiceKeys1(jsonFile1.getParameters().getServices().keySet().toArray(new String[0]));
 
-            techInformation.setServiceNameLength(jsonFile1.getParameters().getServices().getService_name().size());
+            techInformation.setServiceNameLength(jsonFile1.getParameters().getServices().size());
         }
         if (jsonFile2.getParameters() != null &&
-                jsonFile2.getParameters().getServices() != null &&
-                jsonFile2.getParameters().getServices().getService_name() != null) {
+                jsonFile2.getParameters().getServices() != null) {
 
-            techInformation.setServiceKeys2(jsonFile2.getParameters().getServices().getService_name().keySet().toArray(new String[0]));
-            techInformation.setServiceValues2(jsonFile2.getParameters().getServices().getService_name().values().toArray(new String[0]));
+            techInformation.setServiceKeys2(jsonFile2.getParameters().getServices().keySet().toArray(new String[0]));
 
-            if (jsonFile2.getParameters().getServices().getService_name().size() > techInformation.getServiceNameLength()) {
-                techInformation.setServiceNameLength(jsonFile2.getParameters().getServices().getService_name().size());
+            if (jsonFile2.getParameters().getServices().size() > techInformation.getServiceNameLength()) {
+                techInformation.setServiceNameLength(jsonFile2.getParameters().getServices().size());
             }
         }
 
+    }
+
+    private void setMinServiceNameLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
+        if (jsonFile1.getParameters() != null && jsonFile1.getParameters().getServices() != null) {
+
+            techInformation.setMinServiceNameLength(jsonFile1.getParameters().getServices().size());
+        }
+        if (jsonFile2.getParameters() != null &&
+                jsonFile2.getParameters().getServices() != null) {
+            if (jsonFile2.getParameters().getServices().size() < techInformation.getMinServiceNameLength()) {
+                techInformation.setMinServiceNameLength(jsonFile2.getParameters().getServices().size());
+            }
+        }
     }
 
     private void setMaxCommonLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
         if (jsonFile1.getParameters() != null && jsonFile1.getParameters().getCommon() != null) {
 
             techInformation.setCommonKeys1(jsonFile1.getParameters().getCommon().keySet().toArray(new String[0]));
-            techInformation.setCommonValues1(jsonFile1.getParameters().getCommon().values().toArray(new String[0]));
 
             techInformation.setCommonLength(jsonFile1.getParameters().getCommon().size());
         }
         if (jsonFile2.getParameters() != null &&
                 jsonFile2.getParameters().getCommon() != null) {
             techInformation.setCommonKeys2(jsonFile2.getParameters().getCommon().keySet().toArray(new String[0]));
-            techInformation.setCommonValues2(jsonFile2.getParameters().getCommon().values().toArray(new String[0]));
 
             if (jsonFile2.getParameters().getCommon().size() > techInformation.getCommonLength()) {
                 techInformation.setCommonLength(jsonFile2.getParameters().getCommon().size());
