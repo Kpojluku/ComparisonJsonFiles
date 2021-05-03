@@ -15,25 +15,32 @@
 <body>
 <h1 align="center">Comparison report</h1>
 <h3 align="center">metadata</h3>
-<table>
+<table th:with="firstNameIsNull = ${jsonfile1.metadata.application.name == null},
+                secondNameIsNull = ${jsonfile2.metadata.application.name == null},
+                firstVersionIsNull = ${jsonfile1.metadata.description.version == null},
+                secondVersionIsNull = ${jsonfile2.metadata.description.version == null}">
     <tr>
         <th>First Json File</th>
         <th>Second Json File</th>
     </tr>
-    <tr th:style="${Tech.MetadataNameEqual}? '' : ${Tech.lightskyblue}">
+    <tr th:style="${!Tech.MetadataNameEqual and !firstNameIsNull and !secondNameIsNull}? ${Tech.lightskyblue}">
         <td align="center">
-            <p th:text="'name: ' + ${jsonfile1.metadata.application.name}"/>
+            <p th:text="${!firstNameIsNull} ? 'name: ' + ${jsonfile1.metadata.application.name} : '..'"
+               th:style="${firstNameIsNull} ? ${Tech.valueIsNull}"></p>
         </td>
         <td align="center">
-            <p th:text="'name: ' + ${jsonfile2.metadata.application.name}"/>
+            <p th:text="${!secondNameIsNull} ? 'name: ' + ${jsonfile2.metadata.application.name} : '..'"
+               th:style="${secondNameIsNull} ? ${Tech.valueIsNull}"></p>
         </td>
     </tr>
-    <tr th:style="${Tech.MetadataVersionEqual}? '' : ${Tech.lightskyblue}">
+    <tr th:style="${!Tech.MetadataVersionEqual and !firstVersionIsNull and !secondVersionIsNull }? ${Tech.lightskyblue}">
         <td align="center">
-            <p th:text="'version: ' + ${jsonfile1.metadata.description.version}"/>
+            <p th:text="${!firstVersionIsNull} ? 'version: ' + ${jsonfile1.metadata.description.version}  : '..'"
+               th:style="${firstVersionIsNull} ? ${Tech.valueIsNull}"></p>
         </td>
         <td align="center">
-            <p th:text="'version: ' + ${jsonfile2.metadata.description.version}"/>
+            <p th:text="${!secondVersionIsNull} ? 'version: ' + ${jsonfile2.metadata.description.version} : '..'"
+               th:style="${secondVersionIsNull} ? ${Tech.valueIsNull}"></p>
         </td>
     </tr>
 </table>
@@ -67,13 +74,16 @@
                        th:style="${ !isNotEqual and isSecondElementExist and services1.service_short_name != services2.service_short_name }?${Tech.lightskyblue}">
                         ..</p>
                     <p th:utext="' service_name: ' + ${services1.service_name}"
-                       th:style="${!isNotEqual and isSecondElementExist and services1.service_name != services2.service_name }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services1.service_name != null and isSecondElementExist and services1.service_name != services2.service_name }?${Tech.lightskyblue}"
+                       th:styleappend="${services1.service_name == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' artifact_type: ' + ${services1.artifact_type}"
-                       th:style="${!isNotEqual and isSecondElementExist and services1.artifact_type != services2.artifact_type }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services1.artifact_type != null and isSecondElementExist and services1.artifact_type != services2.artifact_type }?${Tech.lightskyblue}"
+                       th:styleappend="${services1.artifact_type == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' docker_registry: ' + ${services1.docker_registry}"
-                       th:style="${!isNotEqual and isSecondElementExist and services1.docker_registry != services2.docker_registry }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services1.docker_registry != null and isSecondElementExist and services1.docker_registry != services2.docker_registry }?${Tech.lightskyblue}"
+                       th:styleappend="${services1.docker_registry == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' docker_image_name: ' + ${services1.docker_image_name}"
                        th:style="${!isNotEqual and isSecondElementExist and services1.docker_image_name != services2.docker_image_name }?${Tech.lightskyblue}">
@@ -94,10 +104,12 @@
                        th:style="${!isNotEqual and isSecondElementExist and services1.github_hash != services2.github_hash }?${Tech.lightskyblue}">
                         ..</p>
                     <p th:utext="' sha1: ' + ${services1.hashes.sha1} "
-                       th:style="${!isNotEqual and isSecondElementExist and services1.hashes.sha1 != services2.hashes.sha1 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services1.hashes.sha1 != null and isSecondElementExist and services1.hashes.sha1 != services2.hashes.sha1 }?${Tech.lightskyblue}"
+                       th:styleappend="${services1.hashes.sha1 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' sha256: ' + ${services1.hashes.sha256}"
-                       th:style="${!isNotEqual and isSecondElementExist and services1.hashes.sha256 != services2.hashes.sha256 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services1.hashes.sha256 != null and isSecondElementExist and services1.hashes.sha256 != services2.hashes.sha256 }?${Tech.lightskyblue}"
+                       th:styleappend="${services1.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                 </div>
             </th:block>
@@ -109,13 +121,17 @@
                        th:style="${!isNotEqual and isFirstElementExist and services2.service_short_name != services1.service_short_name }?${Tech.lightskyblue}">
                         ..</p>
                     <p th:utext="' service_name: ' + ${services2.service_name}"
-                       th:style="${!isNotEqual and isFirstElementExist and services2.service_name != services1.service_name }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services2.service_name != null and isFirstElementExist and services2.service_name != services1.service_name }?${Tech.lightskyblue}"
+                       th:styleappend="${services2.service_name == null} ? ${Tech.valueIsNull}">
+
                         ..</p>
                     <p th:utext="' artifact_type: ' + ${services2.artifact_type}"
-                       th:style="${!isNotEqual and isFirstElementExist and services2.artifact_type != services1.artifact_type }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services2.artifact_type != null and isFirstElementExist and services2.artifact_type != services1.artifact_type }?${Tech.lightskyblue}"
+                       th:styleappend="${services2.artifact_type == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' docker_registry: ' + ${services2.docker_registry}"
-                       th:style="${!isNotEqual and isFirstElementExist and services2.docker_registry != services1.docker_registry }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services2.docker_registry != null and isFirstElementExist and services2.docker_registry != services1.docker_registry }?${Tech.lightskyblue}"
+                       th:styleappend="${services2.docker_registry == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' docker_image_name: ' + ${services2.docker_image_name}"
                        th:style="${!isNotEqual and isFirstElementExist and services2.docker_image_name != services1.docker_image_name }?${Tech.lightskyblue}">
@@ -136,10 +152,12 @@
                        th:style="${!isNotEqual and isFirstElementExist and services2.github_hash != services1.github_hash }?${Tech.lightskyblue}">
                         ..</p>
                     <p th:utext="' sha1: ' + ${services2.hashes.sha1}"
-                       th:style="${!isNotEqual and isFirstElementExist and services2.hashes.sha1 != services1.hashes.sha1 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services2.hashes.sha1 != null and isFirstElementExist and services2.hashes.sha1 != services1.hashes.sha1 }?${Tech.lightskyblue}"
+                       th:styleappend="${services2.hashes.sha1 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' sha256: ' + ${services2.hashes.sha256}"
-                       th:style="${!isNotEqual and isFirstElementExist and services2.hashes.sha256 != services1.hashes.sha256 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and services2.hashes.sha256 != null and isFirstElementExist and services2.hashes.sha256 != services1.hashes.sha256 }?${Tech.lightskyblue}"
+                       th:styleappend="${services2.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                 </div>
             </th:block>
@@ -189,19 +207,23 @@
                                 ..</p>
                             <p th:utext="${isCurrentElementExist }?' mvn_type: '  + ${mvnCount1.mvn_type} : '..'">..</p>
                             <p th:utext="${isCurrentElementExist }?' mvn_repository: '  + ${mvnCount1.mvn_repository} : '..'"
-                               th:style="${!isNotEqual and isCurrentElementExist and isSecondElementExist and mvnCount1.mvn_repository != mvnCount2.mvn_repository }? ${Tech.lightskyblue}">
+                               th:style="${!isNotEqual and mvnCount1.mvn_repository != null and isCurrentElementExist and isSecondElementExist and mvnCount1.mvn_repository != mvnCount2.mvn_repository }? ${Tech.lightskyblue}"
+                               th:styleappend="${mvnCount1.mvn_repository == null} ? ${Tech.valueIsNull}">
                                 ..</p>
                             <p th:utext="${isCurrentElementExist }?' sha1: '  + ${mvnCount1.hashes.sha1} : '..'"
-                               th:style="${!isNotEqual and isCurrentElementExist and isSecondElementExist and mvnCount1.hashes.sha1 != mvnCount2.hashes.sha1 }? ${Tech.lightskyblue}">
+                               th:style="${!isNotEqual and mvnCount1.hashes.sha1 != null and isCurrentElementExist and isSecondElementExist and mvnCount1.hashes.sha1 != mvnCount2.hashes.sha1 }? ${Tech.lightskyblue}"
+                               th:styleappend="${mvnCount1.hashes.sha1 == null} ? ${Tech.valueIsNull}">
                                 ..</p>
                             <p th:utext="${isCurrentElementExist }?' sha256: '  + ${mvnCount1.hashes.sha256} : '..'"
-                               th:style="${!isNotEqual and isCurrentElementExist and isSecondElementExist and mvnCount1.hashes.sha256 != mvnCount2.hashes.sha256 }? ${Tech.lightskyblue}">
+                               th:style="${!isNotEqual and mvnCount1.hashes.sha256 != null and isCurrentElementExist and isSecondElementExist and mvnCount1.hashes.sha256 != mvnCount2.hashes.sha256 }? ${Tech.lightskyblue}"
+                               th:styleappend="${mvnCount1.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                                 ..</p>
                             <p>...</p>
                         </div>
                     </th:block>
                     <p th:utext="' target_repository: '  + ${artifactsElement1.target_repository}"
-                       th:style="${jsonfile2.artifacts.length > i and artifactsElement1.target_repository != artifactsElement2.target_repository}? ${Tech.lightskyblue}">
+                       th:style="${jsonfile2.artifacts.length > i and artifactsElement1.target_repository != null and artifactsElement1.target_repository != artifactsElement2.target_repository}? ${Tech.lightskyblue}"
+                       th:styleappend="${artifactsElement1.target_repository == null} ? ${Tech.valueIsNull}">
                         ..</p>
                 </th:block>
                 <th:block th:if="${i > 0}">
@@ -213,16 +235,19 @@
                            th:style="${!isNotEqual and isSecondArtifactsElementExist and artifactsElement1.service_name != artifactsElement2.service_name }? ${Tech.lightskyblue}">
                             ..</p>
                         <p th:utext="' sha1: '  + ${artifactsElement1.hashes.sha1}"
-                           th:style="${!isNotEqual and isSecondArtifactsElementExist and artifactsElement1.hashes.sha1 != artifactsElement2.hashes.sha1 }? ${Tech.lightskyblue}">
+                           th:style="${!isNotEqual and artifactsElement1.hashes.sha1 != null and isSecondArtifactsElementExist and artifactsElement1.hashes.sha1 != artifactsElement2.hashes.sha1 }? ${Tech.lightskyblue}"
+                           th:styleappend="${artifactsElement1.hashes.sha1 == null} ? ${Tech.valueIsNull}">
                             ..</p>
                         <p th:utext="' sha256: '  + ${artifactsElement1.hashes.sha256}"
-                           th:style="${!isNotEqual and isSecondArtifactsElementExist and artifactsElement1.hashes.sha256 != artifactsElement2.hashes.sha256 }? ${Tech.lightskyblue}">
+                           th:style="${!isNotEqual and artifactsElement1.hashes.sha256 != null and isSecondArtifactsElementExist and artifactsElement1.hashes.sha256 != artifactsElement2.hashes.sha256 }? ${Tech.lightskyblue}"
+                           th:styleappend="${artifactsElement1.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                             ..</p>
                         <p th:utext="' file: '  + ${artifactsElement1.file[0]}"
                            th:style="${!isNotEqual and isSecondArtifactsElementExist and artifactsElement1.file[0] != artifactsElement2.file[0] }? ${Tech.lightskyblue}">
                             ..</p>
                         <p th:utext="' target_repository: '  + ${artifactsElement1.target_repository}"
-                           th:style="${!isNotEqual and isSecondArtifactsElementExist and artifactsElement1.target_repository != artifactsElement2.target_repository }? ${Tech.lightskyblue}">
+                           th:style="${!isNotEqual and artifactsElement1.target_repository != null and isSecondArtifactsElementExist and artifactsElement1.target_repository != artifactsElement2.target_repository }? ${Tech.lightskyblue}"
+                           th:styleappend="${artifactsElement1.target_repository == null} ? ${Tech.valueIsNull}">
                             ..</p>
                     </div>
                 </th:block>
@@ -246,11 +271,14 @@
                                th:style="${!isNotEqual and isCurrentElementExist and isSecondElementExist and mvnCount1.classifier != mvnCount2.classifier }? ${Tech.lightskyblue}"></p>
                             <p th:utext="${isCurrentElementExist }?' mvn_type: '  + ${mvnCount2.mvn_type}: '..'"></p>
                             <p th:utext="${isCurrentElementExist }?' mvn_repository: '  + ${mvnCount2.mvn_repository}: '..'"
-                               th:style="${!isNotEqual and isCurrentElementExist and isSecondElementExist and mvnCount1.mvn_repository != mvnCount2.mvn_repository }? ${Tech.lightskyblue}"></p>
+                               th:style="${!isNotEqual and mvnCount2.mvn_repository != null and isCurrentElementExist and isSecondElementExist and mvnCount1.mvn_repository != mvnCount2.mvn_repository }? ${Tech.lightskyblue}"
+                               th:styleappend="${mvnCount2.mvn_repository == null} ? ${Tech.valueIsNull}"></p>
                             <p th:utext="${isCurrentElementExist }?' sha1: '  + ${mvnCount2.hashes.sha1}: '..'"
-                               th:style="${!isNotEqual and isCurrentElementExist and isSecondElementExist and mvnCount1.hashes.sha1 != mvnCount2.hashes.sha1 }? ${Tech.lightskyblue}"></p>
+                               th:style="${!isNotEqual and mvnCount2.hashes.sha1 != null and isCurrentElementExist and isSecondElementExist and mvnCount1.hashes.sha1 != mvnCount2.hashes.sha1 }? ${Tech.lightskyblue}"
+                               th:styleappend="${mvnCount2.hashes.sha1 == null} ? ${Tech.valueIsNull}"></p>
                             <p th:utext="${isCurrentElementExist }?' sha256: '  + ${mvnCount2.hashes.sha256}: '..'"
-                               th:style="${!isNotEqual and isCurrentElementExist and isSecondElementExist and mvnCount1.hashes.sha256 != mvnCount2.hashes.sha256 }? ${Tech.lightskyblue}"></p>
+                               th:style="${!isNotEqual and mvnCount2.hashes.sha256 != null and isCurrentElementExist and isSecondElementExist and mvnCount1.hashes.sha256 != mvnCount2.hashes.sha256 }? ${Tech.lightskyblue}"
+                               th:styleappend="${mvnCount2.hashes.sha256 == null} ? ${Tech.valueIsNull}"></p>
                             <p>...</p>
                         </div>
                     </th:block>
@@ -267,16 +295,19 @@
                            th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.service_name != artifactsElement2.service_name }? ${Tech.lightskyblue}">
                             ..</p>
                         <p th:utext="' sha1: '  + ${artifactsElement2.hashes.sha1}"
-                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.hashes.sha1 != artifactsElement2.hashes.sha1 }? ${Tech.lightskyblue}">
+                           th:style="${!isNotEqual and artifactsElement2.hashes.sha1 != null and isFirstArtifactsElementExist and artifactsElement1.hashes.sha1 != artifactsElement2.hashes.sha1 }? ${Tech.lightskyblue}"
+                           th:styleappend="${artifactsElement2.hashes.sha1 == null} ? ${Tech.valueIsNull}">
                             ..</p>
                         <p th:utext="' sha256: '  + ${artifactsElement2.hashes.sha256}"
-                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.hashes.sha256 != artifactsElement2.hashes.sha256 }? ${Tech.lightskyblue}">
+                           th:style="${!isNotEqual and artifactsElement2.hashes.sha256 != null and isFirstArtifactsElementExist and artifactsElement1.hashes.sha256 != artifactsElement2.hashes.sha256 }? ${Tech.lightskyblue}"
+                           th:styleappend="${artifactsElement2.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                             ..</p>
                         <p th:utext="' file: '  + ${artifactsElement2.file[0]}"
                            th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.file[0] != artifactsElement2.file[0] }? ${Tech.lightskyblue}">
                             ..</p>
                         <p th:utext="' target_repository: '  + ${artifactsElement2.target_repository}"
-                           th:style="${!isNotEqual and isFirstArtifactsElementExist and artifactsElement1.target_repository != artifactsElement2.target_repository }? ${Tech.lightskyblue}">
+                           th:style="${!isNotEqual and artifactsElement2.target_repository != null and isFirstArtifactsElementExist and artifactsElement1.target_repository != artifactsElement2.target_repository }? ${Tech.lightskyblue}"
+                           th:styleappend="${artifactsElement2.target_repository == null} ? ${Tech.valueIsNull}">
                             ..</p>
                     </div>
                 </th:block>
@@ -319,13 +350,16 @@
                        th:style="${!isNotEqual and isSecondElementExist and script1.end_point != script2.end_point }?${Tech.lightskyblue}">
                         ..</p>
                     <p th:utext="' script_name: ' + ${script1.script_name}"
-                       th:style="${!isNotEqual and isSecondElementExist and script1.script_name != script2.script_name }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and script1.script_name != null and isSecondElementExist and script1.script_name != script2.script_name }?${Tech.lightskyblue}"
+                       th:styleappend="${script1.script_name == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' sha1: ' + ${script1.hashes.sha1}"
-                       th:style="${!isNotEqual and isSecondElementExist and script1.hashes.sha1 != script2.hashes.sha1 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and script1.hashes.sha1 != null and isSecondElementExist and script1.hashes.sha1 != script2.hashes.sha1 }?${Tech.lightskyblue}"
+                       th:styleappend="${script1.hashes.sha1 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' sha256: ' + ${script1.hashes.sha256}"
-                       th:style="${!isNotEqual and isSecondElementExist and script1.hashes.sha256 != script2.hashes.sha256 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and script1.hashes.sha256 != null and isSecondElementExist and script1.hashes.sha256 != script2.hashes.sha256 }?${Tech.lightskyblue}"
+                       th:styleappend="${script1.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' url: ' + ${script1.url}"
                        th:style="${!isNotEqual and isSecondElementExist and script1.url != script2.url }?${Tech.lightskyblue}">
@@ -346,13 +380,16 @@
                        th:style="${!isNotEqual and isFirstElementExist and script1.end_point != script2.end_point }?${Tech.lightskyblue}">
                         ..</p>
                     <p th:utext="' script_name: ' + ${script2.script_name}"
-                       th:style="${!isNotEqual and isFirstElementExist and script1.script_name != script2.script_name }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and script2.script_name != null and isFirstElementExist and script1.script_name != script2.script_name }?${Tech.lightskyblue}"
+                       th:styleappend="${script2.script_name == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' sha1: ' + ${script2.hashes.sha1}"
-                       th:style="${!isNotEqual and isFirstElementExist and script1.hashes.sha1 != script2.hashes.sha1 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and script2.hashes.sha1 != null and isFirstElementExist and script1.hashes.sha1 != script2.hashes.sha1 }?${Tech.lightskyblue}"
+                       th:styleappend="${script2.hashes.sha1 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' sha256: ' + ${script2.hashes.sha256}"
-                       th:style="${!isNotEqual and isFirstElementExist and script1.hashes.sha256 != script2.hashes.sha256 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and script2.hashes.sha256 != null and isFirstElementExist and script1.hashes.sha256 != script2.hashes.sha256 }?${Tech.lightskyblue}"
+                       th:styleappend="${script2.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="' url: ' + ${script2.url}"
                        th:style="${!isNotEqual and isFirstElementExist and script1.url != script2.url }?${Tech.lightskyblue}">
@@ -390,13 +427,16 @@
                        th:style="${!isNotEqual and isSecondElementExist and rpm1.url != rpm2.url }?${Tech.lightskyblue}">
                         ..</p>
                     <p th:utext="'rpm_repository_name: ' + ${rpm1.rpm_repository_name}"
-                       th:style="${!isNotEqual and isSecondElementExist and rpm1.rpm_repository_name != rpm2.rpm_repository_name }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and rpm1.rpm_repository_name != null and isSecondElementExist and rpm1.rpm_repository_name != rpm2.rpm_repository_name }?${Tech.lightskyblue}"
+                       th:styleappend="${rpm1.rpm_repository_name == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="'sha1: ' + ${rpm1.hashes.sha1}"
-                       th:style="${!isNotEqual and isSecondElementExist and rpm1.hashes.sha1 != rpm2.hashes.sha1 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and rpm1.hashes.sha1 != null and isSecondElementExist and rpm1.hashes.sha1 != rpm2.hashes.sha1 }?${Tech.lightskyblue}"
+                       th:styleappend="${rpm1.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="'sha256: ' + ${rpm1.hashes.sha256}"
-                       th:style="${!isNotEqual and isSecondElementExist and rpm1.hashes.sha256 != rpm2.hashes.sha256 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and rpm1.hashes.sha256 != null and isSecondElementExist and rpm1.hashes.sha256 != rpm2.hashes.sha256 }?${Tech.lightskyblue}"
+                       th:styleappend="${rpm1.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="${rpm1.service_short_name != null}? 'service-short-name: ' + ${rpm1.service_short_name} : '..'"
                        th:style="${!isNotEqual and isSecondElementExist and rpm1.service_short_name != rpm2.service_short_name }?${Tech.lightskyblue}">
@@ -411,13 +451,16 @@
                        th:style="${!isNotEqual and isFirstElementExist and rpm1.url != rpm2.url }?${Tech.lightskyblue}">
                         ..</p>
                     <p th:utext="'rpm_repository_name: ' + ${rpm2.rpm_repository_name}"
-                       th:style="${!isNotEqual and isFirstElementExist and rpm1.rpm_repository_name != rpm2.rpm_repository_name }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and rpm2.rpm_repository_name != null and isFirstElementExist and rpm1.rpm_repository_name != rpm2.rpm_repository_name }?${Tech.lightskyblue}"
+                       th:styleappend="${rpm2.rpm_repository_name == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="'sha1: ' + ${rpm2.hashes.sha1}"
-                       th:style="${!isNotEqual and isFirstElementExist and rpm1.hashes.sha1 != rpm2.hashes.sha1 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and rpm2.hashes.sha1 != null and isFirstElementExist and rpm1.hashes.sha1 != rpm2.hashes.sha1 }?${Tech.lightskyblue}"
+                       th:styleappend="${rpm2.hashes.sha1 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="'sha256: ' + ${rpm2.hashes.sha256}"
-                       th:style="${!isNotEqual and isFirstElementExist and rpm1.hashes.sha256 != rpm2.hashes.sha256 }?${Tech.lightskyblue}">
+                       th:style="${!isNotEqual and rpm2.hashes.sha256 != null and isFirstElementExist and rpm1.hashes.sha256 != rpm2.hashes.sha256 }?${Tech.lightskyblue}"
+                       th:styleappend="${rpm2.hashes.sha256 == null} ? ${Tech.valueIsNull}">
                         ..</p>
                     <p th:utext="${rpm2.service_short_name != null}? 'service-short-name: ' + ${rpm2.service_short_name} : '..'"
                        th:style="${!isNotEqual and isFirstElementExist and rpm1.service_short_name != rpm2.service_short_name }?${Tech.lightskyblue}">

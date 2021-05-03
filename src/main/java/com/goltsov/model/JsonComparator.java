@@ -55,8 +55,11 @@ public class JsonComparator {
         techInformation.setMetadataVersionEqual(jsonFile1.getMetadata().getDescription().getVersion() ==
                 jsonFile2.getMetadata().getDescription().getVersion());
 
-        techInformation.setMetadataNameEqual(jsonFile1.getMetadata().getApplication().getName().
-                equals(jsonFile2.getMetadata().getApplication().getName()));
+        if(jsonFile1.getMetadata().getApplication().getName()!= null &&
+                jsonFile2.getMetadata().getApplication().getName()!= null) {
+            techInformation.setMetadataNameEqual(jsonFile1.getMetadata().getApplication().getName().
+                    equals(jsonFile2.getMetadata().getApplication().getName()));
+        }
 
 
         //сортировка массива для Services

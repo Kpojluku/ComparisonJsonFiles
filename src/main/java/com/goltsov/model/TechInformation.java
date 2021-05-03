@@ -25,6 +25,15 @@ public class TechInformation {
     private String lightskyblue = "background: lightskyblue;";
     private String indianred = "background: indianred;";
     private String greenyellow = "background: greenyellow;";
+    private String valueIsNull = "background: #ff9300;";
+
+    public String getValueIsNull() {
+        return valueIsNull;
+    }
+
+    public void setValueIsNull(String valueIsNull) {
+        this.valueIsNull = valueIsNull;
+    }
 
     public String getGreenyellow() {
         return greenyellow;
