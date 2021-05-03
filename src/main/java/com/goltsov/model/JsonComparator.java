@@ -52,14 +52,8 @@ public class JsonComparator {
 
         setMaxRpmLength(jsonFile1, jsonFile2, techInformation);
 
-        techInformation.setMetadataVersionEqual(jsonFile1.getMetadata().getDescription().getVersion() ==
-                jsonFile2.getMetadata().getDescription().getVersion());
-
-        if(jsonFile1.getMetadata().getApplication().getName()!= null &&
-                jsonFile2.getMetadata().getApplication().getName()!= null) {
-            techInformation.setMetadataNameEqual(jsonFile1.getMetadata().getApplication().getName().
-                    equals(jsonFile2.getMetadata().getApplication().getName()));
-        }
+        //Проверка на равенство metadata - version, name
+        checkMetadata(jsonFile1, jsonFile2, techInformation);
 
 
         //сортировка массива для Services
@@ -125,6 +119,15 @@ public class JsonComparator {
 
 
         return "report";
+    }
+
+    private void checkMetadata(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
+        //Проверка на равенство metadata.description.version
+        techInformation.setMetadataVersionEqual(jsonFile1.getMetadata().getDescription().getVersion().
+                equals(jsonFile2.getMetadata().getDescription().getVersion()));
+        //Проверка на равенство metadata.application.name
+        techInformation.setMetadataNameEqual(jsonFile1.getMetadata().getApplication().getName().
+                equals(jsonFile2.getMetadata().getApplication().getName()));
     }
 
     private void setMaxMvnLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
