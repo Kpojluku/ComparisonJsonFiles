@@ -36,7 +36,16 @@ public class JsonComparator {
         finalFile.setParameters(jsonFile.getParameters());
     }
 
-    public String compare(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
+    public String compare(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation,
+                          KeyFields keyFields1, KeyFields keyFields2) {
+
+        if (checkMandatoryFields(jsonFile1, keyFields1)) {
+            checkMandatoryFields(jsonFile2, keyFields2);
+            return "mandatoryFields";
+        } else if (checkMandatoryFields(jsonFile2, keyFields2)) {
+            checkMandatoryFields(jsonFile1, keyFields1);
+            return "mandatoryFields";
+        }
 
         setMaxServicesLength(jsonFile1, jsonFile2, techInformation);
 
@@ -119,6 +128,119 @@ public class JsonComparator {
 
 
         return "report";
+    }
+
+    private boolean checkMandatoryFields(JsonFile jsonFile, KeyFields keyFields) {
+        boolean result = false;
+        // Проверка Services
+        checkServicesFields(jsonFile, keyFields);
+        if (checkServicesFields(jsonFile, keyFields)) {
+            result = true;
+        }
+        // Проверка Artifacts
+        if (checkArtifactsFields(jsonFile, keyFields)) {
+            result = true;
+        }
+        if (checkScriptFields(jsonFile, keyFields)) {
+            result = true;
+        }
+        if (checkRpmFields(jsonFile, keyFields)) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    private boolean checkRpmFields(JsonFile json, KeyFields keyFields) {
+        boolean result = false;
+        ArrayList<Integer> url = new ArrayList<>();
+        for (int i = 0; i < json.getRpm().length; i++) {
+            if (json.getRpm()[i].getUrl() == null) {
+                url.add(i);
+                result = true;
+            }
+        }
+        keyFields.setUrlRpm(url.toArray(new Integer[0]));
+        return result;
+    }
+
+    private boolean checkScriptFields(JsonFile json, KeyFields keyFields) {
+        boolean result = false;
+        ArrayList<Integer> url = new ArrayList<>();
+        for (int i = 0; i < json.getScript().length; i++) {
+            if (json.getScript()[i].getUrl() == null) {
+                url.add(i);
+                result = true;
+            }
+        }
+        keyFields.setUrlScript(url.toArray(new Integer[0]));
+        return result;
+    }
+
+    private boolean checkArtifactsFields(JsonFile json, KeyFields keyFields) {
+        boolean result = false;
+        if (json.getArtifacts().length > 0 && json.getArtifacts()[0].getMvn() == null) {
+            keyFields.setMvnMissing(true);
+            result = true;
+        }
+        ArrayList<Integer> groupId = new ArrayList<>();
+        ArrayList<Integer> artifactId = new ArrayList<>();
+        ArrayList<Integer> version = new ArrayList<>();
+        ArrayList<Integer> mvn_type = new ArrayList<>();
+        ArrayList<Integer> file = new ArrayList<>();
+        if (!result) {
+            for (int i = 0; i < json.getArtifacts()[0].getMvn().length; i++) {
+                if (json.getArtifacts()[0].getMvn()[i].getGroupId() == null) {
+                    groupId.add(i);
+                    result = true;
+                }
+                if (json.getArtifacts()[0].getMvn()[i].getArtifactId() == null) {
+                    artifactId.add(i);
+                    result = true;
+                }
+                if (json.getArtifacts()[0].getMvn()[i].getVersion() == null) {
+                    version.add(i);
+                    result = true;
+                }
+                if (json.getArtifacts()[0].getMvn()[i].getMvn_type() == null) {
+                    mvn_type.add(i);
+                    result = true;
+                }
+            }
+        }
+        for (int i = 1; i < json.getArtifacts().length; i++) {
+            if (json.getArtifacts()[i].getFile() == null) {
+                file.add(i);
+                result = true;
+            }
+        }
+        keyFields.setGroupId(groupId.toArray(new Integer[0]));
+        keyFields.setArtifactId(artifactId.toArray(new Integer[0]));
+        keyFields.setVersion(version.toArray(new Integer[0]));
+        keyFields.setMvn_type(mvn_type.toArray(new Integer[0]));
+        keyFields.setFiles(file.toArray(new Integer[0]));
+        return result;
+    }
+
+    private boolean checkServicesFields(JsonFile json, KeyFields keyFields) {
+        boolean result = false;
+        ArrayList<Integer> docker_image = new ArrayList<>();
+        ArrayList<Integer> docker_tag = new ArrayList<>();
+        for (int i = 0; i < json.getServices().length; i++) {
+            if (json.getServices()[i].getDocker_image_name() == null) {
+                // записываем элемент массива i, в числовой массив
+                // который хранит инфомарцию о нулевых значениях
+                docker_image.add(i);
+                result = true;
+            }
+            if (json.getServices()[i].getDocker_tag() == null) {
+                docker_tag.add(i);
+                result = true;
+            }
+        }
+        keyFields.setDocker_image_name(docker_image.toArray(new Integer[0]));
+        keyFields.setDocker_tag(docker_tag.toArray(new Integer[0]));
+        return result;
     }
 
     private void checkMetadata(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {

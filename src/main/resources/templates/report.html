@@ -497,7 +497,7 @@
 
                 <div th:with="  isFirstServiceKeysExist = ${Tech.serviceKeys1.length > i},
                                 isSecondServiceKeysExist = ${Tech.serviceKeys2.length > i},
-                                Check = ${!isFirstServiceKeysExist and isSecondServiceKeysExist}"
+                                Check = ${isFirstServiceKeysExist and !isSecondServiceKeysExist}"
                      th:style="${Check} ? ${Tech.indianred}"
                      th:styleappend="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] != Tech.serviceKeys1[i]} ? ${Tech.indianred} ">
                     <p th:utext=" ${#maps.size(jsonfile1.parameters.services) > i}?  ${Tech.serviceKeys1[i]} : '..'">

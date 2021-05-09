@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mandatory fields</title>
+</head>
+<body>
+<h3>Services</h3>
+<p th:if="${!#arrays.isEmpty(keyFields1.docker_image_name)}">The <b>docker_image_name</b> key field is empty in the <b>first file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.docker_image_name, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.docker_image_name)}">The <b>docker_image_name</b> key field is empty in the <b>second file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.docker_image_name, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields1.docker_tag)}">The <b>docker_tag</b> key field is empty in the <b>first file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.docker_tag, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.docker_tag)}">The <b>docker_tag</b> key field is empty in the <b>second file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.docker_tag, ',')}"></span></p>
+
+<h3>Artifacts</h3>
+<p th:if="${keyFields1.MvnMissing}"> The <b>MVN</b> array is missing in the <b>first file</b> </p>
+<p th:if="${keyFields2.MvnMissing}"> The <b>MVN</b> array is missing in the <b>first file</b> </p>
+<p th:if="${!#arrays.isEmpty(keyFields1.groupId)}">The <b>groupId</b> key field is empty in the <b>first file</b> in the MVN array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.groupId, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.groupId)}">The <b>groupId</b> key field is empty in the <b>second file</b> in the MVN array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.groupId, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields1.artifactId)}">The <b>artifactId</b> key field is empty in the <b>first file</b> in the MVN array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.artifactId, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.artifactId)}">The <b>artifactId</b> key field is empty in the <b>second file</b> in the MVN array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.artifactId, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields1.version)}">The <b>version</b> key field is empty in the <b>first file</b> in the MVN array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.version, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.version)}">The <b>version</b> key field is empty in the <b>second file</b> in the MVN array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.version, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields1.mvn_type)}">The <b>mvn_type</b> key field is empty in the <b>first file</b> in the MVN array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.mvn_type, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.mvn_type)}">The <b>mvn_type</b> key field is empty in the <b>second file</b> in the MVN array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.mvn_type, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields1.files)}">The <b>file</b> key field is empty in the <b>first file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.files, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.files)}">The <b>file</b> key field is empty in the <b>second file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.files, ',')}"></span></p>
+
+<h3>Script</h3>
+<p th:if="${!#arrays.isEmpty(keyFields1.urlScript)}">The <b>url</b> key field is empty in the <b>first file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.urlScript, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.urlScript)}">The <b>url</b> key field is empty in the <b>second file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.urlScript, ',')}"></span></p>
+
+<h3>Rpm</h3>
+<p th:if="${!#arrays.isEmpty(keyFields1.urlRpm)}">The <b>url</b> key field is empty in the <b>first file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields1.urlRpm, ',')}"></span></p>
+<p th:if="${!#arrays.isEmpty(keyFields2.urlRpm)}">The <b>url</b> key field is empty in the <b>second file</b> in the array elements: <span th:utext ="${#strings.arrayJoin(keyFields2.urlRpm, ',')}"></span></p>
+
+</body>
+</html>
