@@ -3,9 +3,9 @@ package com.goltsov;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.goltsov.model.JsonComparator;
 import com.goltsov.model.JsonFile;
-import com.goltsov.model.TechInformation;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Test {
     public static void main(String[] args) {
@@ -15,18 +15,18 @@ public class Test {
         try {
             jsonFile1 = comparator.getJsonFile(getJson1());
             jsonFile2 = comparator.getJsonFile(getJson2());
-       //     comparator.compare(jsonFile1, jsonFile2, new TechInformation());
+            //     comparator.compare(jsonFile1, jsonFile2, new TechInformation());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
 
-       Map<String, Map<String, String>> services = new LinkedHashMap<>();
-       Map<String, String> map = new LinkedHashMap<>();
-       map.put("test2", "test2");
-       map.put("test1", "test1");
-       map.put("test3", "test3");
-       services.put("1", map);
+        Map<String, Map<String, String>> services = new LinkedHashMap<>();
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("test2", "test2");
+        map.put("test1", "test1");
+        map.put("test3", "test3");
+        services.put("1", map);
 
         Map<String, String> tmp1 = services.get("1");
 
@@ -38,10 +38,6 @@ public class Test {
 //                    .sorted(Map.Entry.comparingByKey())
 //                    .forEachOrdered(e -> map.put(e.getKey(), e.getValue()));
 //        System.out.println(map);
-
-
-
-
 
 
     }
@@ -193,7 +189,8 @@ public class Test {
                 "    }\n" +
                 "}\n";
     }
-    public static String getJson2(){
+
+    public static String getJson2() {
         return "{\n" +
                 "    \"metadata\": {\n" +
                 "        \"description\": {\n" +

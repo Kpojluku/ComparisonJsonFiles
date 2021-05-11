@@ -76,16 +76,18 @@ public class JsonComparator {
         // sortServices2(jsonFile1, jsonFile2);
 
         //сортировка массива для mvn
-        if (jsonFile2.getArtifacts()[0].getMvn().length >= jsonFile1.getArtifacts()[0].getMvn().length) {
-            sortMvn(jsonFile1, jsonFile2);
-        } else {
-            sortMvn(jsonFile2, jsonFile1);
-        }
-        //Сортировка массива для Artifacts
-        if (jsonFile2.getArtifacts().length >= jsonFile1.getArtifacts().length) {
-            sortArtifacts(jsonFile1, jsonFile2);
-        } else {
-            sortArtifacts(jsonFile2, jsonFile1);
+        if(jsonFile1.getArtifacts().length > 0 && jsonFile2.getArtifacts().length > 0) {
+            if (jsonFile2.getArtifacts()[0].getMvn().length >= jsonFile1.getArtifacts()[0].getMvn().length) {
+                sortMvn(jsonFile1, jsonFile2);
+            } else {
+                sortMvn(jsonFile2, jsonFile1);
+            }
+            //Сортировка массива для Artifacts
+            if (jsonFile2.getArtifacts().length >= jsonFile1.getArtifacts().length) {
+                sortArtifacts(jsonFile1, jsonFile2);
+            } else {
+                sortArtifacts(jsonFile2, jsonFile1);
+            }
         }
 
         //сортировка массива для script
@@ -188,7 +190,7 @@ public class JsonComparator {
         ArrayList<Integer> version = new ArrayList<>();
         ArrayList<Integer> mvn_type = new ArrayList<>();
         ArrayList<Integer> file = new ArrayList<>();
-        if (!result) {
+        if (!result && json.getArtifacts().length > 0) {
             for (int i = 0; i < json.getArtifacts()[0].getMvn().length; i++) {
                 if (json.getArtifacts()[0].getMvn()[i].getGroupId() == null) {
                     groupId.add(i);
@@ -253,19 +255,19 @@ public class JsonComparator {
     }
 
     private void setMaxMvnLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
-        if (jsonFile1.getArtifacts() != null) {
+        if (jsonFile1.getArtifacts() != null && jsonFile1.getArtifacts().length > 0) {
             techInformation.setMvnLength(jsonFile1.getArtifacts()[0].getMvn().length);
         }
-        if (jsonFile2.getArtifacts() != null && jsonFile2.getArtifacts()[0].getMvn().length > techInformation.getMvnLength()) {
+        if (jsonFile2.getArtifacts() != null && jsonFile2.getArtifacts().length > 0 && jsonFile2.getArtifacts()[0].getMvn().length > techInformation.getMvnLength()) {
             techInformation.setMvnLength(jsonFile2.getArtifacts()[0].getMvn().length);
         }
     }
 
     private void setMinMvnLength(JsonFile jsonFile1, JsonFile jsonFile2, TechInformation techInformation) {
-        if (jsonFile1.getArtifacts() != null) {
+        if (jsonFile1.getArtifacts() != null && jsonFile1.getArtifacts().length > 0) {
             techInformation.setMinMvnLength(jsonFile1.getArtifacts()[0].getMvn().length);
         }
-        if (jsonFile2.getArtifacts() != null && jsonFile2.getArtifacts()[0].getMvn().length < techInformation.getMinMvnLength()) {
+        if (jsonFile2.getArtifacts() != null && jsonFile2.getArtifacts().length > 0 && jsonFile2.getArtifacts()[0].getMvn().length < techInformation.getMinMvnLength()) {
             techInformation.setMinMvnLength(jsonFile2.getArtifacts()[0].getMvn().length);
         }
     }

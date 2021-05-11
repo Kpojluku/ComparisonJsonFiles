@@ -187,7 +187,7 @@
         <td align="center"><p th:utext="${i+1}">..</p></td>
 
         <td valign="top" align="center">
-            <th:block th:if="${isFirstArtifactsElementExist}">
+            <th:block th:if="${isFirstArtifactsElementExist and jsonfile1.artifacts.length > 0}">
                 <th:block th:if="${i==0}">
                     <th:block th:each="count:${#numbers.sequence(0, Tech.mvnLength-1)}">
                         <div th:with="isNotEqual = ${Tech.isMvnEqual.length-1 > count and !Tech.isMvnEqual[count]},
@@ -258,7 +258,7 @@
                 <th:block th:if="${i==0}">
                     <th:block th:each="count:${#numbers.sequence(0, Tech.mvnLength-1)}">
                         <div th:with="isNotEqual = ${Tech.isMvnEqual.length-1 > count and !Tech.isMvnEqual[count]},
-                        isSecondElementExist = ${jsonfile1.artifacts[i].mvn.length > count}, isCurrentElementExist = ${jsonfile2.artifacts[i].mvn.length > count},
+                        isSecondElementExist = ${jsonfile1.artifacts.length > 0 and jsonfile1.artifacts[i].mvn.length > count}, isCurrentElementExist = ${jsonfile2.artifacts[i].mvn.length > count},
                          mvnCount2 = ${isCurrentElementExist}? ${jsonfile2.artifacts[i].mvn[count]}, mvnCount1 = ${isSecondElementExist}? ${jsonfile1.artifacts[i].mvn[count]}"
                              th:style="${isNotEqual}?${Tech.greenyellow}"
                              th:styleappend="${!isSecondElementExist} ? ${Tech.greenyellow}">
