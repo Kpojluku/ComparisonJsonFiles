@@ -509,7 +509,7 @@
                                 Check = ${isFirstServiceKeysExist and !isSecondServiceKeysExist}"
                      th:style="${Check} ? ${Tech.indianred}"
                      th:styleappend="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] != Tech.serviceKeys1[i]} ? ${Tech.indianred} ">
-                    <p th:utext=" ${#maps.size(jsonfile1.parameters.services) > i}?  ${Tech.serviceKeys1[i]} : '..'">
+                    <p th:utext=" ${#maps.size(jsonfile1.parameters.services) > i}?  ${Tech.serviceKeys1[i]} : '..'" th:style="'border:1px solid black;'">
                         ..</p>
 
                     <th:block th:each="j:${#numbers.sequence(0, Tech.maxServPrmArraysLength[i]-1)}">
@@ -552,7 +552,7 @@
                               Check = ${!isFirstServiceKeysExist and isSecondServiceKeysExist}"
                      th:style="${Check} ? ${Tech.greenyellow}"
                      th:styleappend="${isFirstServiceKeysExist and isSecondServiceKeysExist and Tech.serviceKeys2[i] != Tech.serviceKeys1[i]} ? ${Tech.greenyellow} ">
-                    <p th:utext="${#maps.size(jsonfile2.parameters.services) > i}?  ${Tech.serviceKeys2[i]}">..</p>
+                    <p th:utext="${#maps.size(jsonfile2.parameters.services) > i}?  ${Tech.serviceKeys2[i]}" th:style="'border:1px solid black;'">..</p>
 
                     <th:block th:each="j:${#numbers.sequence(0, Tech.maxServPrmArraysLength[i]-1)}">
                         <th:block
