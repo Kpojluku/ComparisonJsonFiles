@@ -1,6 +1,5 @@
 package com.goltsov.model;
 
-// Класс, хранящий информацию о незаполненных ключевых полях
 public class KeyFields {
     private Integer[] docker_image_name;
     private Integer[] docker_tag;

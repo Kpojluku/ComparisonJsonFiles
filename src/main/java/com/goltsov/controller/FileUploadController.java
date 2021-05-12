@@ -36,6 +36,10 @@ public class FileUploadController {
             jsonComparator.setJsonFile(File1, jsonfile1);
             jsonComparator.setJsonFile(File2, jsonfile2);
 
+            techInformation.setFileName1(file[0].getOriginalFilename().substring(0, file[0].getOriginalFilename().lastIndexOf(".")));
+            techInformation.setFileName2(file[1].getOriginalFilename().substring(0, file[1].getOriginalFilename().lastIndexOf(".")));
+
+
             return jsonComparator.compare(jsonfile1, jsonfile2, techInformation, keyFields1, keyFields2);
 
         } catch (Exception e) {

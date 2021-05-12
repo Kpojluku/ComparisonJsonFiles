@@ -3,6 +3,8 @@ package com.goltsov.model;
 import java.util.ArrayList;
 
 public class TechInformation {
+    private String fileName1;
+    private String fileName2;
     private int servicesLength;
     private int artifactsLength;
     private int scriptLength;
@@ -26,6 +28,22 @@ public class TechInformation {
     private String indianred = "background: indianred;";
     private String greenyellow = "background: greenyellow;";
     private String valueIsNull = "background: #ff9300;";
+
+    public String getFileName1() {
+        return fileName1;
+    }
+
+    public void setFileName1(String fileName1) {
+        this.fileName1 = fileName1;
+    }
+
+    public String getFileName2() {
+        return fileName2;
+    }
+
+    public void setFileName2(String fileName2) {
+        this.fileName2 = fileName2;
+    }
 
     public String getValueIsNull() {
         return valueIsNull;
