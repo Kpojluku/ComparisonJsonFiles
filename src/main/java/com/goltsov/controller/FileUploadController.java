@@ -1,10 +1,7 @@
 package com.goltsov.controller;
 
 
-import com.goltsov.model.JsonComparator;
-import com.goltsov.model.JsonFile;
-import com.goltsov.model.KeyFields;
-import com.goltsov.model.TechInformation;
+import com.goltsov.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +25,8 @@ public class FileUploadController {
                                    @ModelAttribute("jsonfile2") JsonFile jsonfile2,
                                    @ModelAttribute("Tech") TechInformation techInformation,
                                    @ModelAttribute("keyFields1") KeyFields keyFields1,
-                                   @ModelAttribute("keyFields2") KeyFields keyFields2) {
+                                   @ModelAttribute("keyFields2") KeyFields keyFields2,
+                                   @ModelAttribute("errors") Errors errors) {
         JsonComparator jsonComparator = new JsonComparator();
         try {
             JsonFile File1 = jsonComparator.getJsonFile(file[0]);
@@ -42,7 +40,17 @@ public class FileUploadController {
 
             return jsonComparator.compare(jsonfile1, jsonfile2, techInformation, keyFields1, keyFields2);
 
-        } catch (Exception e) {
+        } catch (com.fasterxml.jackson.databind.exc.InvalidFormatException e){
+            e.printStackTrace();
+            errors.setInvalidFormatException(true);
+            return "error";
+        }
+        catch (com.fasterxml.jackson.core.JsonParseException | com.fasterxml.jackson.databind.JsonMappingException e ) {
+            e.printStackTrace();
+            errors.setJsonParseException(true);
+            return "error";
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return "error";
         }

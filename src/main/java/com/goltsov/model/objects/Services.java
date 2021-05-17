@@ -1,7 +1,6 @@
 package com.goltsov.model.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Services {
     @JsonProperty("service-short-name")
     private String service_short_name;

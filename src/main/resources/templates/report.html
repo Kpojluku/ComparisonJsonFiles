@@ -20,14 +20,16 @@
     <p> - Element removed</p>
     <div th:style="${Tech.greenyellow} + 'height:20px;width:20px;float:left;'"></div>
     <p> - Element added</p>
+    <div th:style="${Tech.lightskyblue} + 'height:20px;width:20px;float:left;'"></div>
+    <p> - Element changed</p>
     <div th:style="${Tech.valueIsNull} + 'height:20px;width:20px;float:left;'"></div>
     <p> - Mandatory field is not filled</p>
 </div>
 <h3 align="center">metadata</h3>
-<table th:with="firstNameIsNull = ${jsonfile1.metadata.application.name == null},
-                secondNameIsNull = ${jsonfile2.metadata.application.name == null},
-                firstVersionIsNull = ${jsonfile1.metadata.description.version == null},
-                secondVersionIsNull = ${jsonfile2.metadata.description.version == null}">
+<table th:with="firstNameIsNull = ${jsonfile1.metadata == null or jsonfile1.metadata.application.name == null},
+                secondNameIsNull = ${jsonfile2.metadata == null or jsonfile2.metadata.application.name == null},
+                firstVersionIsNull = ${jsonfile1.metadata == null or jsonfile1.metadata.description.version == null},
+                secondVersionIsNull = ${jsonfile2.metadata == null or jsonfile2.metadata.description.version == null}">
     <tr>
         <th>First Json File</th>
         <th>Second Json File</th>
@@ -63,8 +65,8 @@
     </tr>
 
     <tr th:each="i:${#numbers.sequence(0, Tech.servicesLength-1)}"
-        th:with="isFirstElementExist = ${jsonfile1.services.length > i},
-                        isSecondElementExist = ${jsonfile2.services.length > i},
+        th:with="isFirstElementExist = ${jsonfile1.services != null and jsonfile1.services.length > i},
+                        isSecondElementExist = ${jsonfile2.services != null and jsonfile2.services.length > i},
                         isNotEqual = ${isFirstElementExist and isSecondElementExist and (jsonfile1.services[i].docker_image_name != jsonfile2.services[i].docker_image_name or jsonfile1.services[i].docker_tag != jsonfile2.services[i].docker_tag)},
                         isNotEqual2 = ${isFirstElementExist and !isSecondElementExist},
                         isNotEqual3 = ${isSecondElementExist and !isFirstElementExist},
@@ -183,8 +185,8 @@
     </tr>
 
     <tr th:each="i:${#numbers.sequence(0, Tech.artifactsLength-1)}"
-        th:with="isFirstArtifactsElementExist = ${jsonfile1.artifacts.length > i},
-         isSecondArtifactsElementExist = ${jsonfile2.artifacts.length > i},
+        th:with="isFirstArtifactsElementExist = ${jsonfile1.artifacts != null and jsonfile1.artifacts.length > i},
+         isSecondArtifactsElementExist = ${jsonfile2.artifacts != null and jsonfile2.artifacts.length > i},
          artifactsElement1 =${isFirstArtifactsElementExist}? ${jsonfile1.artifacts[i]},
          artifactsElement2 = ${isSecondArtifactsElementExist}? ${jsonfile2.artifacts[i]},
          isNotEqual = ${isFirstArtifactsElementExist and isSecondArtifactsElementExist and i!=0 and jsonfile1.artifacts[i].file[0] != jsonfile2.artifacts[i].file[0]},
@@ -199,8 +201,8 @@
             <th:block th:if="${isFirstArtifactsElementExist and jsonfile1.artifacts.length > 0}">
                 <th:block th:if="${i==0}">
                     <th:block th:each="count:${#numbers.sequence(0, Tech.mvnLength-1)}">
-                        <div th:with="isNotEqual = ${Tech.isMvnEqual.length-1 > count and !Tech.isMvnEqual[count]},
-                        isSecondElementExist = ${artifactsElement2.mvn.length > count}, isCurrentElementExist = ${artifactsElement1.mvn.length > count },
+                        <div th:with="isNotEqual = ${Tech.isMvnEqual != null and Tech.isMvnEqual.length-1 > count and !Tech.isMvnEqual[count]},
+                        isSecondElementExist = ${artifactsElement2 != null and artifactsElement2.mvn.length > count}, isCurrentElementExist = ${artifactsElement1.mvn.length > count },
                         mvnCount1 = ${isCurrentElementExist}? ${jsonfile1.artifacts[i].mvn[count]}, mvnCount2 = ${isSecondElementExist}? ${jsonfile2.artifacts[i].mvn[count]} "
                              th:style="${isNotEqual}?${Tech.indianred}"
                              th:styleappend="${!isSecondElementExist} ? ${Tech.indianred}">
@@ -231,7 +233,7 @@
                         </div>
                     </th:block>
                     <p th:utext="' target_repository: '  + ${artifactsElement1.target_repository}"
-                       th:style="${jsonfile2.artifacts.length > i and artifactsElement1.target_repository != null and artifactsElement1.target_repository != artifactsElement2.target_repository}? ${Tech.lightskyblue}"
+                       th:style="${jsonfile2.artifacts != null and jsonfile2.artifacts.length > i and artifactsElement1.target_repository != null and artifactsElement1.target_repository != artifactsElement2.target_repository}? ${Tech.lightskyblue}"
                        th:styleappend="${artifactsElement1.target_repository == null} ? ${Tech.valueIsNull}">
                         ..</p>
                 </th:block>
@@ -266,8 +268,8 @@
             <th:block th:if="${isSecondArtifactsElementExist}">
                 <th:block th:if="${i==0}">
                     <th:block th:each="count:${#numbers.sequence(0, Tech.mvnLength-1)}">
-                        <div th:with="isNotEqual = ${Tech.isMvnEqual.length-1 > count and !Tech.isMvnEqual[count]},
-                        isSecondElementExist = ${jsonfile1.artifacts.length > 0 and jsonfile1.artifacts[i].mvn.length > count}, isCurrentElementExist = ${jsonfile2.artifacts[i].mvn.length > count},
+                        <div th:with="isNotEqual = ${Tech.isMvnEqual != null and Tech.isMvnEqual.length-1 > count and !Tech.isMvnEqual[count]},
+                        isSecondElementExist = ${jsonfile1.artifacts != null and jsonfile1.artifacts.length > 0 and jsonfile1.artifacts[i].mvn.length > count}, isCurrentElementExist = ${jsonfile2.artifacts[i].mvn.length > count},
                          mvnCount2 = ${isCurrentElementExist}? ${jsonfile2.artifacts[i].mvn[count]}, mvnCount1 = ${isSecondElementExist}? ${jsonfile1.artifacts[i].mvn[count]}"
                              th:style="${isNotEqual}?${Tech.greenyellow}"
                              th:styleappend="${!isSecondElementExist} ? ${Tech.greenyellow}">
@@ -292,7 +294,7 @@
                         </div>
                     </th:block>
                     <p th:utext="' target_repository: '  + ${jsonfile2.artifacts[i].target_repository}"
-                       th:style="${jsonfile1.artifacts.length > i and jsonfile1.artifacts[i].target_repository != jsonfile2.artifacts[i].target_repository}? ${Tech.lightskyblue}">
+                       th:style="${jsonfile1.artifacts != null and jsonfile1.artifacts.length > i and jsonfile1.artifacts[i].target_repository != jsonfile2.artifacts[i].target_repository}? ${Tech.lightskyblue}">
                         ..</p>
                 </th:block>
                 <th:block th:if="${i > 0}">
@@ -334,8 +336,8 @@
     </tr>
 
     <tr th:each="i:${#numbers.sequence(0, Tech.scriptLength-1)}"
-        th:with="  isFirstElementExist = ${jsonfile1.script.length > i},
-                        isSecondElementExist = ${jsonfile2.script.length > i},
+        th:with="  isFirstElementExist = ${jsonfile1.script != null and jsonfile1.script.length > i},
+                        isSecondElementExist = ${jsonfile2.script != null and jsonfile2.script.length > i},
                         isNotEqual = ${isFirstElementExist and isSecondElementExist and jsonfile1.script[i].url != jsonfile2.script[i].url},
                         isNotEqual2 = ${isFirstElementExist and !isSecondElementExist},
                         isNotEqual3 = ${isSecondElementExist and !isFirstElementExist},
@@ -417,8 +419,8 @@
         <th>Second Json File</th>
     </tr>
     <tr th:each="i:${#numbers.sequence(0, Tech.rpmLength-1)}"
-        th:with="  isFirstElementExist = ${jsonfile1.rpm.length > i},
-                        isSecondElementExist = ${jsonfile2.rpm.length > i},
+        th:with="  isFirstElementExist = ${jsonfile1.rpm != null and jsonfile1.rpm.length > i},
+                        isSecondElementExist = ${jsonfile2.rpm != null and jsonfile2.rpm.length > i},
                         isNotEqual = ${isFirstElementExist and isSecondElementExist and jsonfile1.rpm[i].url != jsonfile2.rpm[i].url},
                         isNotEqual2 = ${isFirstElementExist and !isSecondElementExist},
                         isNotEqual3 = ${isSecondElementExist and !isFirstElementExist},
@@ -488,14 +490,14 @@
     </tr>
 
     <tr>
-        <td valign="top" align="center">
+        <td valign="top" align="center" th:if="${jsonfile1.parameters != null}">
 
             <p><b>common:</b></p>
             <th:block th:each="i:${#numbers.sequence(0, Tech.commonLength-1)}">
-                <div th:style="${#maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? ${Tech.indianred}"
-                     th:styleappend="${#maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? ${Tech.greenyellow}">
-                    <p th:utext="${#maps.size(jsonfile1.parameters.common) > i} ? ${Tech.commonKeys1[i]} + ' : ' + ${jsonfile1.parameters.common.get(Tech.commonKeys1[i])} : '..'"
-                       th:style="${#maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?${Tech.lightskyblue}">
+                <div th:style="${jsonfile1.parameters.common != null and jsonfile2.parameters.common != null and #maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? ${Tech.indianred}"
+                     th:styleappend="${jsonfile1.parameters.common != null and jsonfile2.parameters.common != null and #maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? ${Tech.greenyellow}">
+                    <p th:utext="${jsonfile1.parameters.common != null and #maps.size(jsonfile1.parameters.common) > i} ? ${Tech.commonKeys1[i]} + ' : ' + ${jsonfile1.parameters.common.get(Tech.commonKeys1[i])} : '..'"
+                       th:style="${jsonfile1.parameters.common != null and jsonfile2.parameters.common != null and #maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?${Tech.lightskyblue}">
                         ..</p>
                 </div>
             </th:block>
@@ -536,17 +538,17 @@
         <td valign="top" align="center">
             <p><b>common:</b></p>
             <th:block th:each="i:${#numbers.sequence(0, Tech.commonLength-1)}">
-                <div th:style="${#maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? ${Tech.indianred}"
-                     th:styleappend="${#maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? ${Tech.greenyellow}">
-                    <p th:utext="${#maps.size(jsonfile2.parameters.common) > i} ? ${Tech.commonKeys2[i]} + ' : ' + ${jsonfile2.parameters.common.get(Tech.commonKeys2[i])} : '..'"
-                       th:style="${#maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?${Tech.lightskyblue}">
+                <div th:style="${jsonfile1.parameters.common != null and jsonfile2.parameters.common != null and #maps.size(jsonfile1.parameters.common) > i and !(#maps.size(jsonfile2.parameters.common) > i)} ? ${Tech.indianred}"
+                     th:styleappend="${jsonfile1.parameters.common != null and jsonfile2.parameters.common != null and #maps.size(jsonfile2.parameters.common) > i and !(#maps.size(jsonfile1.parameters.common) > i)} ? ${Tech.greenyellow}">
+                    <p th:utext="${jsonfile2.parameters.common != null and #maps.size(jsonfile2.parameters.common) > i} ? ${Tech.commonKeys2[i]} + ' : ' + ${jsonfile2.parameters.common.get(Tech.commonKeys2[i])} : '..'"
+                       th:style="${jsonfile1.parameters.common != null and jsonfile2.parameters.common != null and #maps.size(jsonfile1.parameters.common) > i and #maps.size(jsonfile2.parameters.common) > i and jsonfile1.parameters.common.get(Tech.commonKeys1[i]) != jsonfile2.parameters.common.get(Tech.commonKeys2[i]) }?${Tech.lightskyblue}">
                         ..</p>
                 </div>
             </th:block>
             <p><b>services:</b></p>
             <th:block th:each="i:${#numbers.sequence(0, Tech.serviceNameLength-1)}"
-                      th:style="${#maps.size(jsonfile2.parameters.services) > i and !(#maps.size(jsonfile1.parameters.services) > i)} ? ${Tech.greenyellow}"
-                      th:styleappend="${#maps.size(jsonfile1.parameters.services) > i and !(#maps.size(jsonfile2.parameters.services) > i)} ? ${Tech.indianred}">
+                      th:style="${jsonfile2.parameters.services != null and jsonfile1.parameters.services != null and #maps.size(jsonfile2.parameters.services) > i and !(#maps.size(jsonfile1.parameters.services) > i)} ? ${Tech.greenyellow}"
+                      th:styleappend="${jsonfile2.parameters.services != null and jsonfile1.parameters.services != null and #maps.size(jsonfile1.parameters.services) > i and !(#maps.size(jsonfile2.parameters.services) > i)} ? ${Tech.indianred}">
                 <div th:with="isFirstServiceKeysExist = ${Tech.serviceKeys1.length > i},
                               isSecondServiceKeysExist = ${Tech.serviceKeys2.length > i},
                               Check = ${!isFirstServiceKeysExist and isSecondServiceKeysExist}"
