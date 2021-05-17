@@ -3,19 +3,19 @@ package com.goltsov.controller;
 
 import com.goltsov.model.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 @Controller
 public class FileUploadController {
 
     @GetMapping("/")
-    public String listUploadedFiles(Model model) {
-        model.addAttribute("upload");
+    public String listUploadedFiles() {
         return "upload";
     }
 
@@ -34,23 +34,21 @@ public class FileUploadController {
             jsonComparator.setJsonFile(File1, jsonfile1);
             jsonComparator.setJsonFile(File2, jsonfile2);
 
-            techInformation.setFileName1(file[0].getOriginalFilename().substring(0, file[0].getOriginalFilename().lastIndexOf(".")));
-            techInformation.setFileName2(file[1].getOriginalFilename().substring(0, file[1].getOriginalFilename().lastIndexOf(".")));
+            techInformation.setFileName1(Objects.requireNonNull(file[0].getOriginalFilename()).substring(0, file[0].getOriginalFilename().lastIndexOf(".")));
+            techInformation.setFileName2(Objects.requireNonNull(file[1].getOriginalFilename()).substring(0, file[1].getOriginalFilename().lastIndexOf(".")));
 
 
             return jsonComparator.compare(jsonfile1, jsonfile2, techInformation, keyFields1, keyFields2);
 
-        } catch (com.fasterxml.jackson.databind.exc.InvalidFormatException e){
+        } catch (com.fasterxml.jackson.databind.exc.InvalidFormatException e) {
             e.printStackTrace();
             errors.setInvalidFormatException(true);
             return "error";
-        }
-        catch (com.fasterxml.jackson.core.JsonParseException | com.fasterxml.jackson.databind.JsonMappingException e ) {
+        } catch (com.fasterxml.jackson.core.JsonParseException | com.fasterxml.jackson.databind.JsonMappingException e) {
             e.printStackTrace();
             errors.setJsonParseException(true);
             return "error";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "error";
         }
