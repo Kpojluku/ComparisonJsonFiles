@@ -5,7 +5,12 @@
     <title>Mandatory fields</title>
 </head>
 <body>
+<h3>Metadata</h3>
+<p th:if="${keyFields1.metadataDoesNotExist}">The <b>Metadata</b> object is not filled in <span th:utext="${Tech.fileName1}" th:style="'font-weight: bold;'"></span></p>
+<p th:if="${keyFields2.metadataDoesNotExist}">The <b>Metadata</b> object is not filled in <span th:utext="${Tech.fileName2}" th:style="'font-weight: bold;'"></span></p>
 <h3>Services</h3>
+<p th:if="${keyFields1.servicesDoesNotExist}">The <b>Services</b> object is not filled in <span th:utext="${Tech.fileName1}" th:style="'font-weight: bold;'"></span></p>
+<p th:if="${keyFields2.servicesDoesNotExist}">The <b>Services</b> object is not filled in <span th:utext="${Tech.fileName2}" th:style="'font-weight: bold;'"></span></p>
 <p th:if="${!#arrays.isEmpty(keyFields1.docker_image_name)}">The <b>docker_image_name</b> key field is empty in the
     <span th:utext="${Tech.fileName1}" th:style="'font-weight: bold;'"></span> in the array elements: <span
             th:utext="${#strings.arrayJoin(keyFields1.docker_image_name, ',')}"></span></p>
@@ -20,6 +25,9 @@
         th:utext="${#strings.arrayJoin(keyFields2.docker_tag, ',')}"></span></p>
 
 <h3>Artifacts</h3>
+<p th:if="${keyFields1.artifactsDoesNotExist}">The <b>Artifacts</b> object is not filled in <span th:utext="${Tech.fileName1}" th:style="'font-weight: bold;'"></span></p>
+<p th:if="${keyFields2.artifactsDoesNotExist}">The <b>Artifacts</b> object is not filled in <span th:utext="${Tech.fileName2}" th:style="'font-weight: bold;'"></span></p>
+
 <p th:if="${keyFields1.MvnMissing}"> The <b>MVN</b> array is missing in the <span th:utext="${Tech.fileName1}"
                                                                                   th:style="'font-weight: bold;'"></span>
 </p>
@@ -58,6 +66,8 @@
         th:utext="${#strings.arrayJoin(keyFields2.files, ',')}"></span></p>
 
 <h3>Script</h3>
+<p th:if="${keyFields1.scriptDoesNotExist}">The <b>Script</b> object is not filled in <span th:utext="${Tech.fileName1}" th:style="'font-weight: bold;'"></span></p>
+<p th:if="${keyFields2.scriptDoesNotExist}">The <b>Script</b> object is not filled in <span th:utext="${Tech.fileName2}" th:style="'font-weight: bold;'"></span></p>
 <p th:if="${!#arrays.isEmpty(keyFields1.urlScript)}">The <b>url</b> key field is empty in the <span
         th:utext="${Tech.fileName1}" th:style="'font-weight: bold;'"></span> in the array elements: <span
         th:utext="${#strings.arrayJoin(keyFields1.urlScript, ',')}"></span></p>
@@ -66,6 +76,8 @@
         th:utext="${#strings.arrayJoin(keyFields2.urlScript, ',')}"></span></p>
 
 <h3>Rpm</h3>
+<p th:if="${keyFields1.rpmDoesNotExist}">The <b>Rpm</b> object is not filled in <span th:utext="${Tech.fileName1}" th:style="'font-weight: bold;'"></span></p>
+<p th:if="${keyFields2.rpmDoesNotExist}">The <b>Rpm</b> object is not filled in <span th:utext="${Tech.fileName2}" th:style="'font-weight: bold;'"></span></p>
 <p th:if="${!#arrays.isEmpty(keyFields1.urlRpm)}">The <b>url</b> key field is empty in the <span
         th:utext="${Tech.fileName1}" th:style="'font-weight: bold;'"></span> in the array elements: <span
         th:utext="${#strings.arrayJoin(keyFields1.urlRpm, ',')}"></span></p>

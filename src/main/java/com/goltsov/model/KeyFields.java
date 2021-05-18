@@ -1,6 +1,11 @@
 package com.goltsov.model;
 
 public class KeyFields {
+    private boolean servicesDoesNotExist;
+    private boolean metadataDoesNotExist;
+    private boolean artifactsDoesNotExist;
+    private boolean scriptDoesNotExist;
+    private boolean rpmDoesNotExist;
     private Integer[] docker_image_name;
     private Integer[] docker_tag;
     private boolean MvnMissing;
@@ -12,6 +17,45 @@ public class KeyFields {
     private Integer[] urlScript;
     private Integer[] urlRpm;
 
+    public boolean isRpmDoesNotExist() {
+        return rpmDoesNotExist;
+    }
+
+    public void setRpmDoesNotExist(boolean rpmDoesNotExist) {
+        this.rpmDoesNotExist = rpmDoesNotExist;
+    }
+
+    public boolean isScriptDoesNotExist() {
+        return scriptDoesNotExist;
+    }
+
+    public void setScriptDoesNotExist(boolean scriptDoesNotExist) {
+        this.scriptDoesNotExist = scriptDoesNotExist;
+    }
+
+    public boolean isArtifactsDoesNotExist() {
+        return artifactsDoesNotExist;
+    }
+
+    public void setArtifactsDoesNotExist(boolean artifactsDoesNotExist) {
+        this.artifactsDoesNotExist = artifactsDoesNotExist;
+    }
+
+    public boolean isMetadataDoesNotExist() {
+        return metadataDoesNotExist;
+    }
+
+    public void setMetadataDoesNotExist(boolean metadataDoesNotExist) {
+        this.metadataDoesNotExist = metadataDoesNotExist;
+    }
+
+    public boolean isServicesDoesNotExist() {
+        return servicesDoesNotExist;
+    }
+
+    public void setServicesDoesNotExist(boolean servicesDoesNotExist) {
+        this.servicesDoesNotExist = servicesDoesNotExist;
+    }
 
     public Integer[] getUrlScript() {
         return urlScript;

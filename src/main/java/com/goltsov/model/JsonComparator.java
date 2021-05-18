@@ -146,27 +146,43 @@ public class JsonComparator {
 
     private boolean checkMandatoryFields(JsonFile jsonFile, KeyFields keyFields) {
         boolean result = false;
+        if(jsonFile.getMetadata() == null){
+            keyFields.setMetadataDoesNotExist(true);
+            result = true;
+        }
         // Проверка Services
         if (jsonFile.getServices() != null) {
             if (checkServicesFields(jsonFile, keyFields)) {
                 result = true;
             }
+        } else {
+            keyFields.setServicesDoesNotExist(true);
+            result = true;
         }
         // Проверка Artifacts
         if (jsonFile.getArtifacts() != null) {
             if (checkArtifactsFields(jsonFile, keyFields)) {
                 result = true;
             }
+        }else {
+            keyFields.setArtifactsDoesNotExist(true);
+            result = true;
         }
         if (jsonFile.getScript() != null) {
             if (checkScriptFields(jsonFile, keyFields)) {
                 result = true;
             }
+        }else {
+            keyFields.setScriptDoesNotExist(true);
+            result = true;
         }
         if (jsonFile.getRpm() != null) {
             if (checkRpmFields(jsonFile, keyFields)) {
                 result = true;
             }
+        }else {
+            keyFields.setRpmDoesNotExist(true);
+            result = true;
         }
         return result;
     }
