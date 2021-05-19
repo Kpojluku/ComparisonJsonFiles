@@ -9,7 +9,7 @@ public class JsonFile {
     private Services[] services;
     private Artifacts[] artifacts;
     private Script[] script;
-    private Rpm rpm;
+    private Rpm[] rpm;
     private Parameters parameters;
 
     public JsonFile() {
@@ -47,11 +47,11 @@ public class JsonFile {
         this.script = script;
     }
 
-    public Rpm getRpm() {
+    public Rpm[] getRpm() {
         return rpm;
     }
 
-    public void setRpm(Rpm rpm) {
+    public void setRpm(Rpm[] rpm) {
         this.rpm = rpm;
     }
 
@@ -70,7 +70,7 @@ public class JsonFile {
                 ", services=" + Arrays.toString(services) + "\n" +
                 ", artifacts=" + Arrays.toString(artifacts) + "\n" +
                 ", script=" + Arrays.toString(script) + "\n" +
-                ", rpm=" + rpm + "\n" +
+                ", rpm=" + Arrays.toString(rpm) + "\n" +
                 ", parameters=" + parameters +
                 '}';
     }
